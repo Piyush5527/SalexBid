@@ -35,7 +35,7 @@ const Login = () => {
       const res = await data.json();
       console.log(res)
       if (res.status === 'ok') {
-        alert("Login Successfully");
+        // alert("Login Successfully");
         localStorage.setItem("usersdatatoken", res.user);
         console.log("User Data Token: ",localStorage.getItem("userdatatoken"));
         //alert("done")
