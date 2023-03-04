@@ -43,35 +43,94 @@ h1{
 .info_div.left{
     width:50%;
 }
+
 .info_div.left img{
-    width:50%;
+    width:80%;
+    height:32rem;
+    margin-top: 3rem;
+    overflow: hidden;
     /* margin-left:10% ; */
 }
 .info_div.right{
-    width:30%;
+    width:35%;
     margin-right: 5%;
+    /* background-color: blue; */
+}
+.info_div.right h2{
+    font-weight: 700;
+    font-size: 35px;
+    text-align: left;
+}
+.info_div.right p{
+    text-align: left;
+    font-family: 'arial'; 
+}
+
+.features_container{
+
+    width:100%;
+    display: flex;
+    float: left;
+    /* background-color: green; */
+}
+.features_container.left{
+    width: 33%;
+    display: block;
+    text-align: center;
+    /* background-color: red; */
+}
+.features_container.left span{
+    font-size: 6rem;
+}
+.features_container.left h3{
+    margin-top: -10%;
+    font-size: 20px;
+    font-family: 'arial narrow';
+    text-transform: uppercase;
+    text-align: center;
+}
+.features_container.left p{
+    text-align: center;
+    
 }
 
 
-/* @media only screen and (max-width: 800px)
-{
-    .carousel_item{
-        width:90%;
-        display: block;
-        float: left;
-        max-width: 100%;
-    }   
-    .carousel_item.right{
-        width:90%;
-        max-width: 100%;
-    }
-    img{
-        width: 100%;
-        z-index: -1;
-    }
-    .carousel_item.left{
-        z-index: 5;
-        position: relative;
-        border:5px solid black;
-    }
-}  */
+.features_container.mid{
+    width: 33%;
+    display: block;
+    text-align: center;
+}
+
+.features_container.mid span{
+    font-size: 6rem;
+}
+.features_container.mid h3{
+    margin-top: -10%;
+    font-size: 20px;
+    font-family: 'arial narrow';
+    text-transform: uppercase;
+    text-align: center;
+}
+.features_container.mid p{
+    text-align: center;
+}
+.features_container.right{
+    width: 33%;
+    display: block;
+    text-align: center;
+}
+
+.features_container.right span{
+    font-size: 6rem;
+}
+.features_container.right h3{
+    margin-top: -10%;
+    font-size: 20px;
+    font-family: 'arial narrow';
+    text-transform: uppercase;
+    text-align: center;
+}
+.features_container.right p{
+    text-align: center;
+}
+

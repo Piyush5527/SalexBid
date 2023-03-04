@@ -1,25 +1,26 @@
 import React from 'react'
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Footer = () => {
   return (
-    <footer class="ftco-footer bg-light ftco-section">
-      <div class="container">
+    <footer>
+      <div class="container"  style={{backgroundColor:'black'}}>
       	<div class="row">
-      		<div class="mouse">
+      		{/* <div class="mouse">
 						<a href="#" class="mouse-icon">
 							<div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
 						</a>
-					</div>
+					</div> */}
       	</div>
-        <div class="row mb-5">
-          <div class="col-md">
-            <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2">Winkel</h2>
+        <div class="">
+          <div class="">
+            <div class="">
+              <h2 class="">Winkel</h2>
               <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+              <ul class="">
+                <li class=""><a href="#"><span class="icon-twitter"></span></a></li>
+                <li class=""><a href="#"><span class="icon-facebook"></span></a></li>
+                <li class=""><a href="#"><span class="icon-instagram"></span></a></li>
               </ul>
             </div>
           </div>
