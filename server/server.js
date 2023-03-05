@@ -22,27 +22,55 @@ app.use(bodyParser.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/salexbid');
 
-app.post('/api/register', async (req, res) => {
+const multerStorage = multer.diskStorage({
+    destination : function (req, file, callback) {
+        var dir = "./idProof";
+        callback(null, dir);
+    },
+
+    filename : function(req, file, callback){
+        callback(null, file.originalname);
+    }
+});
+
+const multerFilter = (req, file, cb) => {
+    if (file.mimetype.endsWith("image")) {
+      cb(null, true);
+    } else {
+      cb("Please upload only images.", false);
+    }
+  };    
+
+//var uploadImage = multer({storage : storage});
+
+const upload = multer({
+    storage: multerStorage
+    //fileFilter: multerFilter
+  });
+
+app.post('/api/register', upload.single("verification_proof"), async (req, res) => {
     console.log(req.body);
+    const {filename} = req.file;
     let encPass=""
     try {
-    await bcrypt.genSalt(10,(err,salt)=>{
-        bcrypt.hash(req.body.password,salt,function(err,hash){
-            encPass=hash
-            console.log(encPass)
+        await bcrypt.genSalt(10,(err,salt)=>{
+            bcrypt.hash(req.body.password,salt,function(err,hash){
+                encPass=hash
+                console.log(encPass)
 
-            User.create({
-                full_name : req.body.fullName,
-                phone : req.body.phone,
-                email : req.body.email,
-                password : encPass,
-                address : req.body.address, 
-                gender : req.body.gender,
-                created_at : new Date(),
-                updated_at : new Date(),
+                User.create({
+                    full_name : req.body.fullname,
+                    phone : req.body.phone,
+                    email : req.body.email,
+                    password : encPass,
+                    address : req.body.address, 
+                    gender : req.body.gender,
+                    verification_proof : filename,
+                    created_at : new Date(),
+                    updated_at : new Date(),
+                })
+                
             })
-            
-        })
     })
         return res.json({status : 'ok'})
     } 

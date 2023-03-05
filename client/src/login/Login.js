@@ -43,6 +43,9 @@ const Login = () => {
         setPassword("")
         navigate('/Home');
       }
+      else{
+        alert(res);
+      }
     }
   }
 
@@ -68,7 +71,7 @@ const Login = () => {
                 </div> */}
 
             <button onClick={loginUser}>Login</button>
-            <p>Don't have an Account? <NavLink to="/">Sign Up</NavLink></p>
+            <p>Don't have an Account? <NavLink to="/Register">Sign Up</NavLink></p>
         </form>    
     </Fragment>
 
