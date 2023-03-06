@@ -1,84 +1,63 @@
-import React, { Fragment, useState, useNavigate } from 'react'
+import React, { Fragment, useState } from 'react'
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
-import { NavLink} from 'react-router-dom';
+import { useNavigate, NavLink} from 'react-router-dom';
+import axios from "axios";
 
 const Register = () => {
 
   const [showPass,setShowPass] = useState(false)
   const [cshowpass,setCShowPass] = useState(false)
-  // const navigate=Navigate();
+  const navigate=useNavigate();
   // const [toastFlag,setToastFlag] = useState(true)
   const [fullName,setFullName] = useState("")
   const [phone,setPhone] = useState("")
   const [email,setEmail] = useState("")
   const [address, setAddress] = useState("")
+  const [verificationProof, setVerificationProof] = useState("");
   const [gender, setGender] = useState("")
   const [password,setPassword] = useState("")
   const [cpassword,setCpassword] = useState("")
 
-
-  const addUserdata  = async (e) =>{
-    
+  const addUserdata = async (e) => {
     e.preventDefault();
-    if(fullName===''){
-      alert("Enter Full Name")
-    }else if (email ===''){
-      alert("Enter Email Address")
-    }else if(!email.includes("@") || !email.includes(".")){
-      alert("Enter Valid Email Address")
-    }else if(gender === ""){
-      alert("Please Select Gender")
-    }else if(password === ""){
-      alert("Enter your password")
-    }else if(password.length<6){
-      alert("Please Enter Min 6 character")
-    }else if(cpassword === ''){
-      alert("Please enter Confirm Password")
-    }else if(cpassword.length<6){
-      alert("Please Enter Min 6 Character")
-    }else if(password!==cpassword){
-        alert("password and confirm password not match")
-    }else{
-      
-     
-      const data = await fetch("http://localhost:1337/api/register", {
-        method: "POST",
+    // console.log(pname);
+    // console.log(price);
+    // console.log(qty);
+    // console.log(color);
+    // console.log(size);
+    // console.log(small_desc);
+    // console.log(long_desc);
+    // console.log(brand_id);
+    // console.log(category_id);
+    // console.log(sub_category_id);
+    console.log(verificationProof);
+
+    var formData = new FormData();
+    formData.append("verification_proof", verificationProof)
+    formData.append("fullname", fullName)
+    formData.append("phone", phone)
+    formData.append("email", email)
+    formData.append("gender", gender)
+    formData.append("address", address)
+    formData.append("password", password)
+    formData.append("cpassword", cpassword)
+
+    const config = {
         headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            fullName, 
-            phone,
-            email,
-            gender,
-            address, 
-            password, 
-            cpassword
-        })
-    });
-
-    const res = await data.json();
-    console.log(res.status);
-
-    if(res.status === 'ok')
-    {
-      // alert("Account Successfully Registered ");
-      
-      alert("User Registered Successfully");
-      // window.location.href = '/Login'
-      setFullName("")
-      setPhone("")
-      setGender("")
-      setAddress("")
-      setEmail("")
-      setPassword("")
-      setCpassword("")
-      // navigate("/Home");
+            "Content-Type": "multipart/form-data"
+        }
     }
-  
 
-
+    const res = await axios.post("http://localhost:1337/api/register", formData, config);
+    if (res.data.status === 401 || !res.data) {
+        alert("User Not Registered Successfully");
+        console.log("error")
+    } else {
+        //alert("User Registered Successfully")
+        navigate("/Login")
     }
+
+
   }
 
   return (
@@ -121,6 +100,16 @@ const Register = () => {
                 <label for="Address">Address</label>
                 <input type="text" onChange={(e) => setAddress(e.target.value)} value={address} name="address" placeholder="Address" id="Address"/>
 
+                <div className='form_input'>
+                <label htmlFor='image_path'>Product Images</label>
+                  <div className='two'>
+                    <input 
+                    type="file"
+                    name="verification_proof"
+                    onChange={(e) => setVerificationProof(e.target.files[0])}
+                    placeholder='Select Product Images' multiple/>       
+                  </div>
+                </div>
                 <label for="password">Password</label>
                 <input type={!showPass ? "password" : "text"}  onChange={(e) => setPassword(e.target.value)} value={password} name="password" placeholder="Password" id="password" />
                 {/* <div className='showpass' onClick={() =>setShowPass(!showPass)}>
