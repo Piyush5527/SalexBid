@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { NavLink, useNavigate,} from 'react-router-dom'
 import "../css/login-design.css";
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
+import Errormsg from '../shared/Errormsg';
 
 
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [userAvl,setuserAvl]=useState(true);
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
@@ -43,6 +45,11 @@ const Login = () => {
         setPassword("")
         navigate('/Home');
       }
+      else if(res.status === 'nouser')
+      {
+        console.log("NO USER");
+        setuserAvl(false);
+      }
       else{
         alert(res);
       }
@@ -69,7 +76,7 @@ const Login = () => {
                   }
 
                 </div> */}
-
+            {!userAvl && <Errormsg message="No User with this email is Available!!"/>}
             <button onClick={loginUser}>Login</button>
             <p>Don't have an Account? <NavLink to="/Register">Sign Up</NavLink></p>
         </form>    

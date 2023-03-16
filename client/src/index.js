@@ -7,6 +7,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './login/Login';
 import Register from './register/Register';
 import Homepage from './Home/Homepage';
+import Shop from './shop/Shop';
+import Addproducts from './admin/Addproducts';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +18,8 @@ root.render(
       <Route path="/Login" element={<Login />} />
       <Route path="/Register" element={<Register />} />
       <Route path="/Home" element={<Homepage />} />
+      <Route path="/Shop" element={<Shop />} />
+      <Route path="/AddProduct" element={<Addproducts />} />
     </Routes>
   </BrowserRouter>
 );

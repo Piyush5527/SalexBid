@@ -8,6 +8,7 @@ const User = new mongoose.Schema(
         password : {type : String, required : true},
         address : {type : String, required : true},
         gender : {type : String, required : true},
+        verification_status : {type : Boolean, required : true},
         tokens :[{
             token :{
                 type : String,

@@ -1,0 +1,22 @@
+.bread_container{
+    height: 20rem;
+    width:100%;
+    display: block;
+}
+.inner_container{
+    width:90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.breadcrumbs{
+    margin-left: auto;
+    padding-top:10%;
+    margin-right: auto;
+    font-size: 20px;
+    color: gray;
+}
+.header{
+    margin:0px;
+    font-weight: 800;
+    font-size: 34px;
+}
