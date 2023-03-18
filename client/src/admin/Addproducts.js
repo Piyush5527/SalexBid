@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 
 const Addproducts = () => {
     const [prodName,setProdName]=useState("") 
@@ -9,6 +9,28 @@ const Addproducts = () => {
     const [prodSize,setProdSize]=useState("") 
     const [prodStock,setProdStock]=useState("") 
     const [prodImage,setProdImage]=useState("") 
+    const [category_id,setCategoryId]=useState("") 
+    const [catList,setCatList]=useState([])
+    
+
+    const getCategory=async()=>{
+        const res=await fetch("http://localhost:1337/api/getcategory",{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const categoryData = await res.json()
+        if (res.status === 422 || !categoryData) {
+            console.log("error")
+        } else {
+            setCatList(categoryData)
+            // console.log(categoryData);
+        }
+    }
+    useEffect(()=>{
+        getCategory()
+    },[])
 
     const addProductHandler=async(e)=>{
         e.preventDefault();
@@ -22,6 +44,7 @@ const Addproducts = () => {
            formData.append("prodstock",prodStock); 
            formData.append("prodsize",prodSize); 
            formData.append("prodimage",prodImage);
+           formData.append("categoryid",category_id);
            
            const config={
             headers:{
@@ -37,6 +60,14 @@ const Addproducts = () => {
            else
            {
                 console.log("Successsss")
+                setProdName("")
+                setProdPrice("")
+                setShortDesc("")
+                setLongDesc("")
+                setProdStock("")
+                setProdSize("")
+                alert("Product Added successfully");
+                
            }
         }
         else
@@ -57,7 +88,20 @@ const Addproducts = () => {
             <label for="shortdesc">Short Description<span style={{color:'red'}}>*</span></label>
             <input type="text" name="ShortDesc" placeholder="" onChange={(e)=>setShortDesc(e.target.value)} value={shortDesc}/>
             <label for="longdesc">Long Description<span style={{color:'red'}}>*</span></label>
-            <textarea name="longdesc" placeholder="" onChange={(e)=>setLongDesc(e.target.value)}/>
+            <textarea name="longdesc" placeholder="" onChange={(e)=>setLongDesc(e.target.value)} value={longDesc}/>
+            <label for="category">Select Category<span style={{color:'red'}}>*</span></label>
+            <select value={category_id} onChange={(e)=>{setCategoryId(e.target.value)}}>
+                <option value="">Select</option>
+                { 
+                    catList.map((item)=>{
+                        return(
+                            <>
+                            <option value={item._id}>{item.category_name}</option>
+                            </>
+                        )
+                    })
+                }
+            </select>
             <label for="size">Size<span style={{color:'red'}}>*</span></label>
             <input type="text" name="size" placeholder="xl" onChange={(e)=>setProdSize(e.target.value)} value={prodSize}/>
             <label for="stock">Stock<span style={{color:'red'}}>*</span></label>

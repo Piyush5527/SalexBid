@@ -5,6 +5,7 @@ const Product = (props) => {
     <div className={styles.prod_container}>
         <div class="product">
             <a href="#" class="img-prod"><img class="img-fluid" src={props.imgpath} alt="Colorlib Template"/>
+            
                 {/* <span class="status">30%</span> */}
                 <div class="overlay"></div>
             </a>

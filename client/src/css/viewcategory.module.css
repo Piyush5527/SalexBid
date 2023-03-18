@@ -1,0 +1,15 @@
+.main_container{
+    width:100%;
+}
+.table_container{
+    width:60%;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top: 2%;
+    border:1px solid black;
+    padding:10rem;
+}
+.title{
+    text-align: center;
+    font-weight:800;
+}

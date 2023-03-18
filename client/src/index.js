@@ -9,6 +9,9 @@ import Register from './register/Register';
 import Homepage from './Home/Homepage';
 import Shop from './shop/Shop';
 import Addproducts from './admin/Addproducts';
+import AddCategory from './admin/AddCategory';
+import ViewCategory from './admin/ViewCategory';
+import EditCategory from './admin/EditCategory';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +23,9 @@ root.render(
       <Route path="/Home" element={<Homepage />} />
       <Route path="/Shop" element={<Shop />} />
       <Route path="/AddProduct" element={<Addproducts />} />
+      <Route path="/AddCategory" element={<AddCategory />} />
+      <Route path="/ViewCategory" element={<ViewCategory />} />
+      <Route path="/EditCategory/:id" element={<EditCategory />} />
     </Routes>
   </BrowserRouter>
 );

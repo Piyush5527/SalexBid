@@ -8,6 +8,7 @@ const multer = require('multer')
 const bcrypt=require("bcrypt")
 const fs = require('fs')
 const Product=require('./models/product.model');
+const Category=require('./models/category.model');
 
 const { application } = require("express")
 
@@ -140,6 +141,7 @@ app.post('/api/addProduct',upload.single('prodimage'),async(req,res)=>{
             prod_image : filename,
             short_desc : req.body.shortdesc,
             long_desc : req.body.longdesc,
+            category_id:req.body.categoryid
         })
         console.log(addProd)
         console.log("Product Added Successfully")
@@ -160,6 +162,55 @@ app.get('/api/getproducts',async(req,res)=>{
     {
         console.log(err)
         res.status(422).json(err)
+    }
+})
+
+app.post('/api/addcategory',async(req,res)=>{
+    try{
+        const addcategory=await Category.create({
+            category_name:req.body.categoryName,
+        })
+        console.log("Category Added Successfully")
+        res.status(201).json(addcategory)
+
+    }
+    catch(err)
+    {
+        res.status(422).json("Error")
+        console.log(err)
+    }
+})
+app.get('/api/getcategory',async(req,res)=>{
+    try{
+        const categoryList=await Category.find();
+        res.status(201).json(categoryList)
+    }
+    catch(err)
+    {
+        res.status(422).json("Error")
+        console.log(err)
+    }
+})
+app.delete('/api/detelecategory/:id',async(req,res)=>{
+    try{
+        await Category.deleteOne({_id:req.params.id})
+        res.status(200).json("success")
+    }
+    catch(err)
+    {
+        res.status(422).json("Error")
+    }
+})
+
+app.get('/api/getcategoryid/:id',async(req,res)=>{
+    try{
+        const {id}=req.params;
+        const categoryIdByData=await Category.findById({_id:id});
+        res.status(200).json(categoryIdByData);
+    }
+    catch(err)
+    {
+        res.status(422).json("Error")
     }
 })
 

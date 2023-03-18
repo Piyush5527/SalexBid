@@ -2,7 +2,7 @@ import React from 'react'
 
 const errormsg = (props) => {
   return (
-    <div style={{textAlign:'center'}}>{props.message}</div>
+    <div style={{textAlign:'center',color:props.colors}}>{props.message}</div>
   )
 }
 

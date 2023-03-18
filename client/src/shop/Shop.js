@@ -20,7 +20,8 @@ const Shop = () => {
     } else {
 
       setList(productData)
-      // console.log(list.size())
+      
+      console.log(list)
       // console.log("data retrived success")
       // setHistData(productData)
 
@@ -38,7 +39,7 @@ const Shop = () => {
           list.length > 0 ?
             list.map((item)=>{
               return <div>
-                <Product imgpath={`http://localhost:1337/productImages/${item.image1}`}/>
+                <Product imgpath={`http://localhost:1337/idProof/${item.prod_image}`}/>
               </div>
             })
           :" "
