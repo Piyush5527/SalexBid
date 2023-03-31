@@ -39,7 +39,7 @@ const Shop = () => {
           list.length > 0 ?
             list.map((item)=>{
               return <div>
-                <Product imgpath={`http://localhost:1337/idProof/${item.prod_image}`}/>
+                <Product imgpath={`http://localhost:1337/idProof/${item.prod_image}`} price={item.product_price} prodname={item.product_name}/>
               </div>
             })
           :" "

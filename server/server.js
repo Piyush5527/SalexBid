@@ -124,12 +124,12 @@ app.post('/api/login', async (req, res) => {
     }
     
 })
+app.use("/idProof",express.static("./idProof"));
 
 //EndLogin
 //addProduct
 app.post('/api/addProduct',upload.single('prodimage'),async(req,res)=>{
-    // console.log(req.body)
-    // console.log('prodimage')
+   
     const {filename}=req.file;
     // console.log(filename)
     try{
@@ -213,6 +213,11 @@ app.get('/api/getcategoryid/:id',async(req,res)=>{
         res.status(422).json("Error")
     }
 })
+app.get("/api/logout", (req, res) => {
+    console.log("logging out")
+    // req.session.destroy();
+    return res.json({status : 'ok'})
+});
 
 app.listen(1337, ()=>{
 	console.log("Server is Started...")
