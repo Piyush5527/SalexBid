@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Cart = new mongoose.Schema(
     {
-        product_id : {type : mongoose.Schema.Types.ObjectId, ref : 'shopping_product'},
+        product_id : {type : mongoose.Schema.Types.ObjectId, ref : 'products'},
         user_id : {type : mongoose.Schema.Types.ObjectId, ref : 'auth_users'},
         qty : {type : Number, required : true, default : 1 },
         total_amount : {type : Number, required : true},

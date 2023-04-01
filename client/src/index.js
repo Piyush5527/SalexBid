@@ -13,6 +13,7 @@ import AddCategory from './admin/AddCategory';
 import ViewCategory from './admin/ViewCategory';
 import EditCategory from './admin/EditCategory';
 import Aboutus from './Home/Aboutus';
+import ViewSingleProduct from './shop/ViewSingleProduct';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,6 +29,7 @@ root.render(
       <Route path="/AddCategory" element={<AddCategory />} />
       <Route path="/ViewCategory" element={<ViewCategory />} />
       <Route path="/EditCategory/:id" element={<EditCategory />} />
+      <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
     </Routes>
   </BrowserRouter>
 );

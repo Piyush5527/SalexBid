@@ -213,6 +213,17 @@ app.get('/api/getcategoryid/:id',async(req,res)=>{
         res.status(422).json("Error")
     }
 })
+
+app.get("/api/getproductid/:id", async (req, res) => {
+    try {
+        const {id} = req.params; 
+        const productDataId = await Product.findById({_id: id});
+        res.status(201).json(productDataId)
+        // console.log(userdata);
+    } catch (error) {
+        res.status(422).json(error);
+    }
+})
 app.get("/api/logout", (req, res) => {
     console.log("logging out")
     // req.session.destroy();
