@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
 import { useNavigate, NavLink} from 'react-router-dom';
 import axios from "axios";
+import Errormsg from '../shared/Errormsg';
 
 const Register = () => {
 
@@ -17,47 +18,54 @@ const Register = () => {
   const [gender, setGender] = useState("")
   const [password,setPassword] = useState("")
   const [cpassword,setCpassword] = useState("")
+  const [emailvalid,setEmailValid]=useState(true)
+  const [fullNameValid,setFullNameValid]=useState(true)
+  const [phonevalid,setPhoneValid]=useState(true)
+  const [addressValid,setAddressValid]=useState(true)
+  const [genderValid,setGenderValid]=useState(true)
+  const [passwordValid,setPasswordValid]=useState(true)
+  // const [emailvaid,setEmailValid]=useState(true)
 
   const addUserdata = async (e) => {
     e.preventDefault();
-    // console.log(pname);
-    // console.log(price);
-    // console.log(qty);
-    // console.log(color);
-    // console.log(size);
-    // console.log(small_desc);
-    // console.log(long_desc);
-    // console.log(brand_id);
-    // console.log(category_id);
-    // console.log(sub_category_id);
-    console.log(verificationProof);
+    // console.log("Hello",fullName,phone,email)
+    // console.log(verificationProof);
+    if(verificationProof !== '' && fullName!=='' && email!=='' && phone !=='' && gender!=='' && address !=='' && password!=='')
+    {
+      var formData = new FormData();
+      formData.append("verification_proof", verificationProof)
+      formData.append("fullname", fullName)
+      formData.append("phone", phone)
+      formData.append("email", email)
+      formData.append("gender", gender)
+      formData.append("address", address)
+      formData.append("password", password)
+      formData.append("cpassword", cpassword)
 
-    var formData = new FormData();
-    formData.append("verification_proof", verificationProof)
-    formData.append("fullname", fullName)
-    formData.append("phone", phone)
-    formData.append("email", email)
-    formData.append("gender", gender)
-    formData.append("address", address)
-    formData.append("password", password)
-    formData.append("cpassword", cpassword)
+      const config = {
+          headers: {
+              "Content-Type": "multipart/form-data"
+          }
+      }
 
-    const config = {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        }
+      const res = await axios.post("http://localhost:1337/api/register", formData, config);
+      if (res.data.status === 401 || !res.data) {
+          alert("User Not Registered Successfully");
+          console.log("error")
+      } else {
+          //alert("User Registered Successfully")
+          navigate("/Login")
+      }
+
     }
-
-    const res = await axios.post("http://localhost:1337/api/register", formData, config);
-    if (res.data.status === 401 || !res.data) {
-        alert("User Not Registered Successfully");
-        console.log("error")
-    } else {
-        //alert("User Registered Successfully")
-        navigate("/Login")
+    else
+    {
+      if(fullName==='')
+      {
+        console.log("hel")
+        setFullNameValid(false)
+      }
     }
-
-
   }
 
   return (
@@ -75,7 +83,7 @@ const Register = () => {
                   onChange={(e) => setFullName(e.target.value)}
                   value={fullName} 
                   name="fullName"  type="text" placeholder="username" id="username" />
-
+                 {!fullNameValid && <Errormsg message='Username is Invalid' colors='red'/>}
                 <label for="email">Email</label>
                 <input type="email"  
                   onChange={(e) => setEmail(e.target.value)}
@@ -101,7 +109,7 @@ const Register = () => {
                 <input type="text" onChange={(e) => setAddress(e.target.value)} value={address} name="address" placeholder="Address" id="Address"/>
 
                 <div className='form_input'>
-                <label htmlFor='image_path'>Product Images</label>
+                <label htmlFor='image_path'>Verification Proof</label>
                   <div className='two'>
                     <input 
                     type="file"

@@ -7,6 +7,13 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './login/Login';
 import Register from './register/Register';
 import Homepage from './Home/Homepage';
+import Shop from './shop/Shop';
+import Addproducts from './admin/Addproducts';
+import AddCategory from './admin/AddCategory';
+import ViewCategory from './admin/ViewCategory';
+import EditCategory from './admin/EditCategory';
+import Aboutus from './Home/Aboutus';
+import ViewSingleProduct from './shop/ViewSingleProduct';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +23,13 @@ root.render(
       <Route path="/Login" element={<Login />} />
       <Route path="/Register" element={<Register />} />
       <Route path="/Home" element={<Homepage />} />
+      <Route path="/Shop" element={<Shop />} />
+      <Route path="/Aboutus" element={<Aboutus />} />
+      <Route path="/AddProduct" element={<Addproducts />} />
+      <Route path="/AddCategory" element={<AddCategory />} />
+      <Route path="/ViewCategory" element={<ViewCategory />} />
+      <Route path="/EditCategory/:id" element={<EditCategory />} />
+      <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
     </Routes>
   </BrowserRouter>
 );
