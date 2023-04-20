@@ -9,6 +9,7 @@ const bcrypt=require("bcrypt")
 const fs = require('fs')
 const Product=require('./models/product.model');
 const Category=require('./models/category.model');
+const {spawn}=require('child_process');
 
 const { application } = require("express")
 
@@ -230,6 +231,26 @@ app.get("/api/logout", (req, res) => {
     return res.json({status : 'ok'})
 });
 
+// const ls=spawn('python',['scripts/dobChecker.py','/idProof/testadhar.jpg'])
+// ls.stdout.on('data',(data)=>{
+//     console.log(`stdoutput ${data}`);
+//     // if(data==30)
+//     // {
+//     //     console.log('True')
+//     // }
+//     // else
+//     // {    
+//     //     console.log('False')
+//     // }
+// });
+
+// ls.stderr.on('data',(data)=>{
+//     console.log(`stderror`,data);
+    
+// });
+// ls.on('close',(code)=>{
+//     console.log(`child process exited with code ${code}`);
+// });
 app.listen(1337, ()=>{
 	console.log("Server is Started...")
 })

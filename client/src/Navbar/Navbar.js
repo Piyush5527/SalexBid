@@ -75,6 +75,7 @@ const Navbar = () => {
 			  <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Account</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
+              	<a class="dropdown-item">My Account</a>
               	<a class="dropdown-item" onClick={logoutHandler}>Logout</a>
                 
               </div>
@@ -89,29 +90,9 @@ const Navbar = () => {
 			<div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item active"><a href='/Home'  class="nav-link">Home</a></li>
-	          {/* <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown04">
-              	<a class="dropdown-item" href="shop">Shop</a>
-                <a class="dropdown-item" href="product-single.html">Single Product</a>
-                <a class="dropdown-item" href="cart.html">Cart</a>
-                <a class="dropdown-item" href="checkout.html">Checkout</a>
-              </div>
-            </li> */}
 			<li class="nav-item"><a href="/Aboutus" class="nav-link">About Us</a></li>
 	          <li class="nav-item"><a href="/Login" class="nav-link">Login</a></li>
 	          <li class="nav-item"><a href="/Register" class="nav-link">Register</a></li>
-			  {/* <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown04">
-              	<a class="dropdown-item" href="shop.html">Shop</a>
-                <a class="dropdown-item" href="product-single.html">Single Product</a>
-                <a class="dropdown-item" href="cart.html">Cart</a>
-                <a class="dropdown-item" href="checkout.html">Checkout</a>
-              </div>
-            </li> */}
-	          {/* <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li> */}
-
 	        </ul>
 	      </div>
 		}
