@@ -27,6 +27,8 @@ const Shop = () => {
 
     }
   }
+
+  
   useEffect(()=>{
     getData()
   },[])
