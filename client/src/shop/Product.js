@@ -9,6 +9,30 @@ const Product = (props) => {
         // console.log(id);
         navigate(`/getProductDetail/${id}`);
     }
+
+    const addProductToCart = async (productId) => {
+        console.log(productId);
+    
+        const token = localStorage.getItem('usersdatatoken');
+    
+        const addToCart = await fetch(`http://localhost:1337/api/addtocart/${productId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token
+          }
+        })
+    
+        const getRes = await addToCart.json();
+    
+        if (getRes.status === 422 || !getRes) {
+          console.log("error")
+        } else {
+          alert("Product Added in the Cart Successfully")
+        }
+    
+      }
+    
   return (
     <div className={styles.prod_container}>
         <div class="product">
@@ -35,7 +59,7 @@ const Product = (props) => {
                     </div>
                 </div>
                 <p class="bottom-area d-flex px-3">
-                    <a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                    <a href="#" class="add-to-cart text-center py-2 mr-1" onClick={()=>{addProductToCart(props.prod_id)}}><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
                     <a href="#" class="buy-now text-center py-2" onClick={()=>{productViewHandler(props.prod_id)}}>View Product<span><i class="ion-ios-eye ml-1"></i></span></a>
                 </p>
             </div>
