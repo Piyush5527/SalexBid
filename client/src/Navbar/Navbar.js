@@ -66,14 +66,15 @@ const Navbar = () => {
               <div class="dropdown-menu" aria-labelledby="dropdown04">
               	<a class="dropdown-item" href="shop">Shop</a>
                 <a class="dropdown-item" href="product-single.html">Single Product</a>
-                <a class="dropdown-item" href="cart.html">Cart</a>
+                <a class="dropdown-item" href="/Cart">Cart</a>
                 <a class="dropdown-item" href="checkout.html">Checkout</a>
+				<a class="dropdown-item" href="/Account">Account</a>
               </div>
             </li>
 	          <li class="nav-item"><a href="about.html" class="nav-link">Bids</a></li>
 	          <li class="nav-item"><a href="/Aboutus" class="nav-link">Contact</a></li>
 			  <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Account</a>
+              <a class="nav-link dropdown-toggle" href="/Account" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Account</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
               	<a class="dropdown-item">My Account</a>
               	<a class="dropdown-item" onClick={logoutHandler}>Logout</a>

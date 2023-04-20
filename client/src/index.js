@@ -14,6 +14,15 @@ import ViewCategory from './admin/ViewCategory';
 import EditCategory from './admin/EditCategory';
 import Aboutus from './Home/Aboutus';
 import ViewSingleProduct from './shop/ViewSingleProduct';
+import CartPage from './cart/CartPage';
+import SelectAddress from './account/SelectAddress';
+import AddAddress from './account/AddAddress';
+import EditAddress from './account/EditAddress';
+import EditAddressById from './account/EditAddressById';
+import PlaceOrder from './cart/PlaceOrder';
+import MyOrders from './account/MyOrders';
+import MyOrderDetails from './account/MyOrderDetails';
+import AccountPage from './account/AccountPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,13 +31,27 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/Login" element={<Login />} />
       <Route path="/Register" element={<Register />} />
+      <Route path ="/Account" element={<AccountPage></AccountPage>} />
+      <Route path ="/SelectAddress" element={<SelectAddress />} />
+      <Route path ="/AddAddress" element={<AddAddress />} />
+      <Route path ="/EditAddress" element={<EditAddress />} />
+      <Route path ="/EditAddressById/:id" element={<EditAddressById />} />
+
+      <Route path ="/MyOrders" element={<MyOrders />} />
+      <Route path ="/MyOrderDetails/:id" element={<MyOrderDetails />} />
+
       <Route path="/Home" element={<Homepage />} />
       <Route path="/Shop" element={<Shop />} />
+      <Route path="/Cart" element={<CartPage />} />
+      <Route path ="/PlaceOrder/:id" element={<PlaceOrder />} />
       <Route path="/Aboutus" element={<Aboutus />} />
-      <Route path="/AddProduct" element={<Addproducts />} />
+      
+
       <Route path="/AddCategory" element={<AddCategory />} />
       <Route path="/ViewCategory" element={<ViewCategory />} />
       <Route path="/EditCategory/:id" element={<EditCategory />} />
+      
+      <Route path="/AddProduct" element={<Addproducts />} />
       <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
     </Routes>
   </BrowserRouter>
