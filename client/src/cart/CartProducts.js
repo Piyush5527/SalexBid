@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import cartIcon from '../icons/cart.svg';
 import deleteIcon from '../icons/delete.png';
 import plusIcon from '../icons/plus.png';

@@ -14,6 +14,8 @@ const Address=require('./models/address.model');
 const Cart = require('./models/cart.model');
 const Order = require('./models/order.model');
 const FinalOrder = require('./models/final_order.model');
+const Bid=require('./models/biddetails.model');
+const {spawn}=require('child_process');
 
 const { application } = require("express")
 
@@ -772,12 +774,108 @@ app.get("/api/getAddressCnt",async (req, res) => {
     }
 });
 
+app.post("/api/createbid",upload.single('productImage'),async(req, res) => {
+    try{
+        const {filename}=req.file;
+        console.log(filename);
+        const token = req.headers.authorization;
+        const verifytoken = jwt.verify(token,Skey);
+        const rootUser = await User.findOne({_id:verifytoken._id});
+        if(rootUser)
+        {
+            const addBid=await Bid.create({
+                product_name:req.body.productName,
+                product_category:req.body.category,
+                base_price:req.body.basePrice,
+                short_desc:req.body.shortDesc,
+                long_desc: req.body.longDesc,
+                start_date:req.body.startDate,
+                image_name:filename,
+                u_id:rootUser._id
+            })
+
+            console.log(addBid);
+            console.log("Product added successfully");
+            res.status(201).json(addBid);
+        }
+        else
+        {
+            res.status(420).json({status:'usernotfound'});
+        }
+        
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getbiddata",async(req,res)=>{
+    try{
+        const getBidData=await Bid.find().populate('u_id');
+        res.status(200).json(getBidData);
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(422).json(error);
+    }
+})
+app.get("/api/getbidbyid/:id",async(req,res)=>{
+    try{
+        const {id} = req.params; 
+        const singleBidData=await Bid.findOne({_id: id});
+        if(singleBidData)
+        {
+            console.log(singleBidData)
+            res.status(200).json(singleBidData)
+        }
+        else
+        {
+            request.status(422).json("cant find data")
+            console.log("cant find the data for bid required");
+        }
+    }  
+    catch(error) 
+    {
+        res.status(422).json(error);
+    }
+})
+app.post('/api/approvebid',async(req,res)=>{
+    const id=req.body.id;
+    console.log(id)
+    const approveStatus=req.body.approved;
+    const approveBid=await Bid.updateOne({_id:id},{allowed:approveStatus})
+    console.log("updated successfully")
+    res.status(200).json("Success")
+})
+
 app.get("/api/logout", (req, res) => {
     console.log("logging out")
     // req.session.destroy();
     return res.json({status : 'ok'})
 });
 
+// const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])
+// ls.stdout.on('data',(data)=>{
+//     console.log(`stdoutput ${data}`);
+//     // if(data==30)
+//     // {
+//     //     console.log('True')
+//     // }
+//     // else
+//     // {    
+//     //     console.log('False')
+//     // }
+// });
+
+// ls.stderr.on('data',(data)=>{
+//     console.log(`stderror`,data);
+    
+// });
+// ls.on('close',(code)=>{
+//     console.log(`child process exited with code ${code}`);
+// });
 app.listen(1337, ()=>{
 	console.log("Server is Started...")
 })
