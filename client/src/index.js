@@ -23,6 +23,8 @@ import PlaceOrder from './cart/PlaceOrder';
 import MyOrders from './account/MyOrders';
 import MyOrderDetails from './account/MyOrderDetails';
 import AccountPage from './account/AccountPage';
+import CreateBid from './Bids/CreateBid';
+import ViewAllBids from './admin/ViewAllBids';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -53,6 +55,12 @@ root.render(
       
       <Route path="/AddProduct" element={<Addproducts />} />
       <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
+
+      <Route path="/AccountPage" element={<AccountPage />} />
+      
+      <Route path="/CreateBid" element={<CreateBid />} />
+      <Route path="/ShowAllBids" element={<ViewAllBids />} />
+
     </Routes>
   </BrowserRouter>
 );

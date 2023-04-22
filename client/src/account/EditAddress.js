@@ -3,7 +3,7 @@ import { NavLink, useParams, useNavigate } from 'react-router-dom'
 import deleteIcon from '../icons/delete.png';
 import editIcon from '../icons/edit.png';
 import NavbarBoots from '../Navbar/Navbar';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import '../UI/Card';
 
 const EditAddress = () => {

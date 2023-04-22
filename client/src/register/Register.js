@@ -25,7 +25,7 @@ const Register = () => {
   const [genderValid,setGenderValid]=useState(true)
   const [passwordValid,setPasswordValid]=useState(true)
   // const [emailvaid,setEmailValid]=useState(true)
-
+  
   const addUserdata = async (e) => {
     e.preventDefault();
     // console.log("Hello",fullName,phone,email)
