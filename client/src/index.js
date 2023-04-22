@@ -23,6 +23,8 @@ import PlaceOrder from './cart/PlaceOrder';
 import MyOrders from './account/MyOrders';
 import MyOrderDetails from './account/MyOrderDetails';
 import AccountPage from './account/AccountPage';
+import ShowProducts from './admin/ShowProducts';
+import EditProduct from './admin/EditProduct';
 import CreateBid from './Bids/CreateBid';
 import ViewAllBids from './admin/ViewAllBids';
 import ApproveBid from './admin/ApproveBid';
@@ -55,6 +57,8 @@ root.render(
       <Route path="/EditCategory/:id" element={<EditCategory />} />
       
       <Route path="/AddProduct" element={<Addproducts />} />
+      <Route path ="/EditProduct/:id" element={<EditProduct />} />
+      <Route path="/ShowProducts" element={<ShowProducts />} />
       <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
 
       <Route path="/AccountPage" element={<AccountPage />} />

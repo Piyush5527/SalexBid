@@ -376,6 +376,79 @@ app.get('/api/getproducts',async(req,res)=>{
         console.log(err)
         res.status(422).json(err)
     }
+});
+
+app.get('/api/getproduct',async(req,res)=>{
+    try{
+        const productdata=await Product.find().populate('category_id');
+        res.status(201).json(productdata);
+    }
+    catch(err)
+    {
+        console.log(err)
+        res.status(422).json(err)
+    }
+});
+
+app.delete("/api/deleteproduct/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deleteProduct = await Product.findByIdAndDelete({ _id: id })
+        // console.log(deletcategory);
+        res.status(201).json(deleteProduct);
+
+    } catch (error) {
+        res.status(422).json(error);
+    }
+});
+
+app.patch("/api/updateproduct/:id", upload.single("image_path"), async (req, res) => {
+    try {
+        const { id } = req.params
+        const {filename} = req.file
+        console.log(filename)
+        console.log(req.body)
+        const updateProduct = await Product.findByIdAndUpdate(id, {product_name : req.body.pname,
+            category_id : req.body.category_id,
+            prod_price : req.body.price,
+            small_desc : req.body.small_desc,
+            long_desc : req.body.long_desc,
+            prod_image : filename,
+            prod_stock : req.body.qty,
+            prod_size : req.body.size}, {
+            new: true
+        })
+        // console.log("243 =>"+updateBrand);
+        res.status(201).json(updateProduct)
+    } catch (error) {
+        res.status(422).json(error)
+    }
+});
+
+app.get("/api/getcategory", async (req, res) => {
+    try {
+        const categorydata = await Category.find();
+        res.status(201).json(categorydata)
+        // console.log(userdata);
+    } catch (error) {
+        res.status(422).json(error);
+    }
+});
+
+app.patch("/api/updatecategory/:id", async (req, res) => {
+    try {
+
+        const { id } = req.params
+
+        const updateCategory = await Category.findByIdAndUpdate(id, {category_name : req.body.category_name}, {
+            new: true
+        })
+        // console.log("243 =>"+updateBrand);
+        res.status(201).json(updateCategory)
+    } catch (error) {
+        res.status(422).json(error)
+    }
 })
 
 app.post("/api/addtocart/:productId", async (req, res)=>{
