@@ -67,7 +67,6 @@ const Addproducts = () => {
                 setProdStock("")
                 setProdSize("")
                 alert("Product Added successfully");
-                
            }
         }
         else
@@ -87,8 +86,8 @@ const Addproducts = () => {
             <input type="text" name="prodprice" placeholder="eg 500"  onChange={(e)=>setProdPrice(e.target.value)} value={prodPrice}/>
             <label for="shortdesc">Short Description<span style={{color:'red'}}>*</span></label>
             <input type="text" name="ShortDesc" placeholder="" onChange={(e)=>setShortDesc(e.target.value)} value={shortDesc}/>
-            <label for="longdesc">Long Description<span style={{color:'red'}}>*</span></label>
-            <textarea name="longdesc" placeholder="" onChange={(e)=>setLongDesc(e.target.value)} value={longDesc}/>
+            <label for="longdesc">Long Description<span style={{color:'red'}}>*</span></label><br></br>
+            <textarea name="longdesc" maxLength={500} placeholder="" onChange={(e)=>setLongDesc(e.target.value)} value={longDesc}/><br></br>
             <label for="category">Select Category<span style={{color:'red'}}>*</span></label>
             <select value={category_id} onChange={(e)=>{setCategoryId(e.target.value)}}>
                 <option value="">Select</option>
