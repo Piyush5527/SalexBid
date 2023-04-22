@@ -748,6 +748,34 @@ app.get("/api/getbiddata",async(req,res)=>{
         res.status(422).json(error);
     }
 })
+app.get("/api/getbidbyid/:id",async(req,res)=>{
+    try{
+        const {id} = req.params; 
+        const singleBidData=await Bid.findOne({_id: id});
+        if(singleBidData)
+        {
+            console.log(singleBidData)
+            res.status(200).json(singleBidData)
+        }
+        else
+        {
+            request.status(422).json("cant find data")
+            console.log("cant find the data for bid required");
+        }
+    }  
+    catch(error) 
+    {
+        res.status(422).json(error);
+    }
+})
+app.post('/api/approvebid',async(req,res)=>{
+    const id=req.body.id;
+    console.log(id)
+    const approveStatus=req.body.approved;
+    const approveBid=await Bid.updateOne({_id:id},{allowed:approveStatus})
+    console.log("updated successfully")
+    res.status(200).json("Success")
+})
 
 app.get("/api/logout", (req, res) => {
     console.log("logging out")

@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import styles from '../css/shared.module.css';
+import {useNavigate} from 'react-router-dom';
 const ViewAllBids = () => {
-
+  const navigate = useNavigate()
   const [bidList,setBidList] = useState('')
   const getBidData=async()=>{
     const data =await fetch("http://localhost:1337/api/getbiddata",{
@@ -21,12 +22,16 @@ const ViewAllBids = () => {
     }
   }
 
+  const bidEdithandler=async(id)=>{
+    navigate(`/EditBid/${id}`)
+  }
+
   useEffect(() =>{
     getBidData();
   },[])
-  useEffect(() =>{
-    console.log(bidList)
-  },[bidList])
+  // useEffect(() =>{
+  //   console.log(bidList)
+  // },[bidList])
   
   return (
     <Fragment>
@@ -43,13 +48,13 @@ const ViewAllBids = () => {
             </tr>
             {bidList.length > 0 ? bidList.map((item)=>{
               return(
-              <tr className={item.allowed==true? "table-success" : "table-danger"}>
+              <tr className={item.allowed===true? "table-success" : "table-danger"}>
                 <td>{item.product_name}</td>
                 <td>{item.base_price}</td>
                 <td>{item.product_category}</td>
                 <td>{item.u_id.full_name}</td>
-                <td><img src={`http://localhost:1337/idProof/${item.image_name}`} height={100} width={120}/></td>
-                <td><button style={{margin:0,padding:0}}>Edit</button></td>
+                <td><img src={`http://localhost:1337/idProof/${item.image_name}`} height={80} width={120} alt={""}/></td>
+                <td><button style={{margin:0,padding:0}} onClick={(e)=>{bidEdithandler(item._id)}}>Edit</button></td>
               </tr>)
             }):""}
           </table>
