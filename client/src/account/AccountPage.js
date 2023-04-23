@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import NavbarBoots from '../Navbar/Navbar';
 import styles from '../css/account/AccountPage.module.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 const AccountPage = () => {
 
   const [currentUser, setCurrentUser] = useState([])
@@ -86,20 +86,24 @@ const AccountPage = () => {
       <table class="table table-bordered">
         <tr>
           <td>Name:</td>
-          <td style={{textAlign:'right'}}>{currentUser.full_name}</td>
+          <td>{currentUser.full_name}</td>
         </tr>
         <tr>
           <td>Phone Number :</td>
-          <td style={{textAlign:'right'}}>{currentUser.phone}</td>
+          <td>{currentUser.phone}</td>
         </tr>
         <tr>
           <td>Email : </td>
-          <td style={{textAlign:'right'}}>{currentUser.email}</td>
+          <td>{currentUser.email}</td>
+        </tr>
+        <tr>
+          <td>Account Status : </td>
+          <td>{currentUser.verification_status == true ? "Verified" : "Not Verified"}</td>
         </tr>
         
       </table>
       <div className={styles.buttonsGroup}>
-        <NavLink className='btn btn-primary ms-1'  to={"/EditAddress"}>Edit or Add Address</NavLink>
+        <NavLink className='btn btn-primary ms-1'  to={"/EditAddress"} >Edit or Add Address</NavLink>
         <a href='/Login' className='btn btn-danger ms-1' onClick={logoutHandler}>Logout</a>
         <NavLink className='btn btn-secondary ms-1' to='/MyOrders'>My Orders</NavLink>
       </div>

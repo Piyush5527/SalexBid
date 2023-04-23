@@ -25,6 +25,12 @@ import MyOrderDetails from './account/MyOrderDetails';
 import AccountPage from './account/AccountPage';
 import ShowProducts from './admin/ShowProducts';
 import EditProduct from './admin/EditProduct';
+import CreateBid from './Bids/CreateBid';
+import ViewAllBids from './admin/ViewAllBids';
+import ApproveBid from './admin/ApproveBid';
+import ViewMyBids from './Bids/ViewMyBids';
+import BidsPage from './Bids/BidsPage';
+import ViewBidDetails from './Bids/ViewBidDetails';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -57,6 +63,16 @@ root.render(
       <Route path ="/EditProduct/:id" element={<EditProduct />} />
       <Route path="/ShowProducts" element={<ShowProducts />} />
       <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
+
+      <Route path="/AccountPage" element={<AccountPage />} />
+      
+      <Route path="/CreateBid" element={<CreateBid />} />
+      <Route path="/ShowAllBids" element={<ViewAllBids />} />
+      <Route path="/EditBid/:id" element={<ApproveBid />} />
+      <Route path="/ViewMyBids" element={<ViewMyBids />} />
+      <Route path="/BidsPage" element={<BidsPage />} />
+      <Route path="/BidDetails/:id" element={<ViewBidDetails />} />
+
     </Routes>
   </BrowserRouter>
 );

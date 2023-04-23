@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import Card from '../UI/Card'
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import CartProducts from './CartProducts';
 import Styles from '../css/cart/CartPage.module.css';
 //import cartIcon from '../../icons/cart.svg';
