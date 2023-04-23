@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 const ViewAllBids = () => {
   const navigate = useNavigate()
   const [bidList,setBidList] = useState('')
+  
   const getBidData=async()=>{
     const data =await fetch("http://localhost:1337/api/getbiddata",{
       method:"GET",
