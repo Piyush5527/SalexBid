@@ -670,10 +670,10 @@ app.patch("/api/updateaddress/:id", async (req, res) => {
     }
 })
 
-app.get("/api/logout", (req, res) => {
-    req.session.destroy();
-    return res.json({status : 'ok'})
-});
+// app.get("/api/logout", (req, res) => {
+//     req.session.destroy();
+//     return res.json({status : 'ok'})
+// });
 
 app.post('/api/addcategory',async(req,res)=>{
     try{
@@ -848,6 +848,29 @@ app.post('/api/approvebid',async(req,res)=>{
     const approveBid=await Bid.updateOne({_id:id},{allowed:approveStatus})
     console.log("updated successfully")
     res.status(200).json("Success")
+})
+
+app.get('/api/getmybiddata',async(req,res)=>{
+    try{
+        const token=req.headers.authorization;
+        // console.log(token);
+        const verifytoken = jwt.verify(token,Skey);
+        if(verifytoken)
+        {
+            const myBidData=await Bid.find({u_id:verifytoken._id})
+            console.log(myBidData)
+            res.status(200).json(myBidData)
+        }
+        else
+        {
+            res.status(422).json("User Not Logged In");
+        }
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(422).json(error)
+    }
 })
 
 app.get("/api/logout", (req, res) => {

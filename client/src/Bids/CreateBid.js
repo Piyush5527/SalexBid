@@ -62,6 +62,7 @@ const CreateBid = () => {
   return (
     <Fragment >
         <Navbar></Navbar>
+        <h3 style={{textAlign:"center",fontWeight:700}}>Create New Bid</h3>
         <form className='registration'>
             <label for="name">Product Name</label>
             <input type="text" onChange={(e)=>{setProdName(e.target.value)}} value={prodName} placeholder='Product Name' required/>

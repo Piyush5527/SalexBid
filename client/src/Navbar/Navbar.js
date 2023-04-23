@@ -74,8 +74,9 @@ const Navbar = () => {
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bids</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
-						<a class="dropdown-item" href="shop">Create Bid</a>
-						<a class="dropdown-item" href="/Cart">My Bids</a>
+						<a class="dropdown-item" href="/BidsPage">Bids Page</a>
+						<a class="dropdown-item" href="/CreateBid">Create Bid</a>
+						<a class="dropdown-item" href="/ViewMyBids">My Bids</a>
 						<a class="dropdown-item" href="/Cart">Joined Bids</a>
 						<a class="dropdown-item" href="checkout.html">History</a>
 
