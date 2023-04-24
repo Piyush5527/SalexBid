@@ -1,6 +1,8 @@
 import { Tab } from 'bootstrap'
 import React, { Fragment, useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import NavbarAdmin from '../Navbar/NavbarAdmin'
+import styles from '../css/shared.module.css'
 
 
 const ShowProducts = () => {
@@ -54,6 +56,7 @@ const ShowProducts = () => {
 
   return (
     <Fragment>
+      <NavbarAdmin></NavbarAdmin>
       <div className='design_container'>
       <NavLink to={"/AddProduct"} className="btn btn-success">Add Product</NavLink>
         <table class="table">

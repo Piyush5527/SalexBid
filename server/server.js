@@ -16,6 +16,7 @@ const Order = require('./models/order.model');
 const FinalOrder = require('./models/final_order.model');
 const Bid=require('./models/biddetails.model');
 const bidJoinedDB=require("./models/bidjoined.model");
+const Feedback = require("./models/feedback.model")
 const transactionDB=require("./models/transactions.model");
 const {spawn}=require('child_process');
 
@@ -205,6 +206,22 @@ app.get("/api/getmyorders", async (req, res) => {
     }
 });
 
+app.get("/api/getadminmyorderid/:id", async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const myOrder = await FinalOrder.findById(id).populate('product_id user_id');
+
+        const myOrderDetails = await Order.findById(myOrder.order_id).populate('address_id')
+        console.log(myOrder);
+        console.log(myOrderDetails);
+        res.status(200).json({Order : myOrder, OrderDetails : myOrderDetails});
+    } catch (err) {
+        console.log(err)
+        res.status(401).json(err)
+    }
+})
+
 app.get("/api/getallmyorders", async (req, res) => {
     try {
     
@@ -300,6 +317,252 @@ app.post('/api/register', upload.single("verification_proof"), async (req, res) 
 })
 
 //Login
+
+app.post("/api/adminLogin",async(req,res)=>{
+    try{
+        let email=req.body.email;
+        let password=req.body.password;
+        if(email === "admin@gmail.com" && password === "Admin@123"){
+            console.log("all ok")
+            res.json({ status : 'ok'});
+        }
+        else
+        {
+            console.log("error");
+            return res.status("error");
+        }
+    }
+    catch(err)
+    {
+        console.log(err)
+        return res.status("error");
+    }
+});
+
+app.get("/api/getallmyorders", async (req, res) => {
+    try {
+    
+        const myOrders = await FinalOrder.find().populate('product_id order_id user_id')
+
+        res.status(200).json(myOrders);
+    } catch (err) {
+        console.log(err)
+        res.status(401).json(err)
+    }
+});
+
+app.get("/api/getusercnt",async(req,res)=>{
+    try{
+        const userData=await User.find();
+        // console.log(userData.length);
+        res.status(201).json(userData.length);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+app.get("/api/getproductcnt",async(req,res)=>{
+    try{
+        const productData=await Product.find();
+        // console.log("product len",productData.length);
+        res.status(201).json(productData.length);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getordercount",async(req,res)=>{
+    try{
+        const orderData=await Order.find();
+        // console.log(orderData.length);
+        res.status(201).json(orderData.length);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+app.get("/api/getcompletedordercount",async(req,res)=>{
+    try{
+        const completedorderData=await FinalOrder.find();
+        res.status(201).json(completedorderData.length);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getfeedbackcount",async(req,res)=>{
+    try{
+        const feedbackData=await Feedback.find();
+        res.status(201).json(feedbackData.length);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getallfeedbacks",async(req,res)=>{
+    try{
+        const feedbackData=await Feedback.find().populate('product_id user_id');
+        res.status(201).json(feedbackData);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getadminfeedbackid/:id",async(req,res)=>{
+    try{
+        const {id} = req.params; 
+        const feedbackData=await Feedback.findById(id).populate('product_id user_id');
+        res.status(201).json(feedbackData);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getfeedbackproductid/:id",async(req,res)=>{
+    try{
+        const {id} = req.params; 
+        const feedbackData=await Feedback.find({product_id:id}).populate('product_id user_id');
+        res.status(201).json(feedbackData);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getcategorycount",async(req,res)=>{
+    try{
+        const categoryCnt=await Category.find();
+        res.status(201).json(categoryCnt.length);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getlowstockcount",async(req,res)=>{
+    try{
+        const productCnt=await Product.find();
+
+        let totalCnt = 0;
+
+        productCnt.map((item)=>{
+            if(item.prod_stock<10){
+                totalCnt+=1;
+            }
+        });
+
+        res.status(201).json(totalCnt);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getotalsales",async(req,res)=>{
+    try{
+        const orderData=await FinalOrder.find();
+        // console.log(typeof orderData);
+        let total=0;
+        orderData.map((item)=>{
+            total+=item.total;
+            
+        });
+        // console.log("total sales is :",total);
+        res.status(201).json(total);
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/getunitselled",async(req,res)=>{
+    try{
+        const orderData=await FinalOrder.find();
+        // console.log(typeof orderData);
+        let totalQty = 0;
+
+        orderData.map((item)=>{
+            totalQty+=item.quantity;
+        });
+        // console.log("total sales is :",total);
+        res.status(201).json(totalQty);
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(422).json(error);
+    }
+})
+
+app.get("/api/getthismonthsales",async(req,res)=>{
+    try{
+        const orderData=await FinalOrder.find();
+        let thisMonthSales=0;
+        let todayDate=new Date(Date.now());
+        let month=todayDate.getMonth()+1;
+        let year=todayDate.getFullYear()
+        let formattedDate=year+"-"+month;
+        // console.log("today date is :",formattedDate);
+        orderData.map((item)=>{
+            let saleMonth=item.created_at.getMonth()+1;
+            let saleYear=item.created_at.getFullYear();
+            let newFormatedDate=saleYear+"-"+saleMonth;
+            if(newFormatedDate===formattedDate){
+                thisMonthSales+=item.total;
+            }
+        })
+        // console.log("this month sales is :",thisMonthSales);
+        res.status(201).json(thisMonthSales);
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(422).json(error);
+    }
+})
+
+app.post('/api/addfeedback/:id', async(req,res)=>{
+   
+    const {id} = req.params; 
+    const token =  req.headers.authorization;
+    console.log(token)
+    console.log("Feedback ", req.body.feedback);
+    const verifytoken = jwt.verify(token, Skey)
+    const rootUser = await User.findOne({_id:verifytoken._id})
+
+    try{
+        const addFeedback=await Feedback.create({
+           product_id : id,
+           user_id : rootUser._id,
+           feedback : req.body.feedback
+        })
+        console.log(addFeedback)
+        console.log("Feedback Added Successfully")
+        res.status(201).json(addFeedback)
+    }
+    catch(err)
+    {
+        console.log(err)
+        res.status(422).json("Error")
+    }
+})
 
 async function comparePassword(plaintextPassword, hash) {
     const result = await bcrypt.compare(plaintextPassword, hash);

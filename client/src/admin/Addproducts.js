@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React,{useState,useEffect} from 'react'
+import NavbarAdmin from '../Navbar/NavbarAdmin'
 
 const Addproducts = () => {
     const [prodName,setProdName]=useState("") 
@@ -75,7 +76,9 @@ const Addproducts = () => {
         }
     }
     return (
+        
     <div>
+        <NavbarAdmin/>
         <form>
         <form className='registration'>
             <h3>Add Product</h3>

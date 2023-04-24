@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import styles from '../css/shared.module.css';
 import {useNavigate} from 'react-router-dom';
+import NavbarAdmin from '../Navbar/NavbarAdmin';
 const ViewAllBids = () => {
   const navigate = useNavigate()
   const [bidList,setBidList] = useState('')
@@ -36,6 +37,7 @@ const ViewAllBids = () => {
   
   return (
     <Fragment>
+      <NavbarAdmin></NavbarAdmin>
         <div className={styles.main_container}>
           <h2>View All Bids</h2>
           <table className='table'>

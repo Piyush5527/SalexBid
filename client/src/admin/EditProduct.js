@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import NavbarAdmin from '../Navbar/NavbarAdmin';
 
 const EditProduct = () => {
     const [list, setList] = useState([])
@@ -106,10 +107,11 @@ const EditProduct = () => {
 
     return (
         <>
+        <NavbarAdmin />
     <section>
       <div className='form_data'>
         <div className='form_heading'>
-          <h1>Update Product</h1>
+          <h3 style={{textAlign:'center'}}>Update Product</h3>
           
         </div>
         <form>
