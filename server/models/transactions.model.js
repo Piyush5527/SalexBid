@@ -11,7 +11,7 @@ const transaction = new mongoose.Schema(
         created_at : {type : Date, default : Date.now},
         updated_at : {type : Date, default : Date.now}
     },
-    {collection : 'user_addresses'}
+    {collection : 'transactions'}
 );
-const transactionDB = mongoose.model('transaction',transaction)
+const transactionDB = mongoose.model('transactions',transaction)
 module.exports = transactionDB

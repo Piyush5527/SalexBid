@@ -21,7 +21,8 @@ const JoinBidPayment = () => {
             }
         })
         const result=await res.json()
-        if(result.status===422 || !result)
+        console.log("output",result)
+        if(result.status===422)
         {
             console.log("Error in fetching payment info")
         }
@@ -34,6 +35,12 @@ const JoinBidPayment = () => {
     useEffect(()=>{
         checkPaymentNeed()
     },[])
+    useEffect(()=>{
+        if(isPaymentNeeded === false)
+        {
+            navigate(`/OnGoingBid/${id}`)
+        }
+    },[isPaymentNeeded])
     const getUser = async () => {
         const token=localStorage.getItem("usersdatatoken")
         const user = await fetch("http://localhost:1337/api/user", {
@@ -130,6 +137,7 @@ const JoinBidPayment = () => {
                 } else {
                     alert("Payment Successfully")
                     // navigate("/MyOrders")
+                    window.location.reload()
                 }
             },
             prefill: {
@@ -147,7 +155,7 @@ const JoinBidPayment = () => {
         const razor = new window.Razorpay(options);
         razor.open();
         const res=axios.post(`http://localhost:1337/api/joinbidpayment/${id}`,config)
-
+        // window.location.reload()
     }
     return (
         <Fragment>
@@ -155,7 +163,7 @@ const JoinBidPayment = () => {
             <div className={styles.main_container_navbar}>
                 <h4 style={{marginTop:50,textAlign:"center"}}>You Need to Pay Rs 50 to join the Bid</h4>
                 {isPaymentNeeded && <button className='btn btn-success' onClick={(e)=>{joinBidPaymentHandler()}}>Pay Rs 50/-</button>}
-                {!isPaymentNeeded && <button className='btn btn-secondary' disabled> Pay Rs 50/-</button>}
+                {!isPaymentNeeded && <button className='btn btn-secondary' onClick={(e)=>{navigate(`/OnGoingBid/${id}`)}}> PAID JOINING AMT GO TO BID PAGE</button>}
             </div>
         </Fragment>
     )

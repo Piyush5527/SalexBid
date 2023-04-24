@@ -477,7 +477,7 @@ app.post("/api/addtocart/:productId", async (req, res)=>{
         const rootProduct = await Product.findOne({_id:productId})
        
         const currentCart = await Cart.findOne({product_id : productId, user_id : rootUser._id});
-
+        
         if(!currentCart){
             const addToCart = await Cart.create({
                 product_id : productId,
@@ -837,6 +837,7 @@ app.get("/api/getbiddata",async(req,res)=>{
 app.get("/api/getbidbyid/:id",async(req,res)=>{
     try{
         const {id} = req.params; 
+        console.log(id)
         const singleBidData=await Bid.findOne({_id: id});
         if(singleBidData)
         {
@@ -900,16 +901,16 @@ app.get("/api/checkpaymentneed/:id",async(req,res)=>{
         const verifytoken = jwt.verify(token,Skey);
         // const verifytoken=jwt.verify(token,Skey);
         console.log("in payment need",verifytoken._id,id);
-        const PaymentChecker=bidJoinedDB.findOne({user_id:verifytoken._id,product_id:id})
-        console.log("Payment detail",PaymentChecker._id)
-        if(PaymentChecker._id !== undefined) 
+        const PaymentChecker=await bidJoinedDB.find({product_id:id,user_id:verifytoken._id});
+        console.log("Payment detail",PaymentChecker)
+        if(PaymentChecker.length === 1) 
         {
             console.log("Payment Not needed")
             res.status(200).json(false)
         }
         else
         {
-            console.log("Payment Needed")
+            console.log("Payment Needed",PaymentChecker.user_id)
             res.status(200).json(true)
         }
 
@@ -951,9 +952,11 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
     console.log("In Payment Verification for bids")
     console.log("Payment Id : ",req.body)
     const token =  req.headers.authorization;
+    console.log("Token from payment verification ")
     const verifytoken = jwt.verify(token, Skey)
-    // console.log(verifytoken._id)
-    // console.log(verifytoken);
+    
+    console.log(verifytoken._id)
+    console.log(verifytoken);
     const rootUser = await User.findOne({_id:verifytoken._id})
     let body=req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
     var expectedSignature = crypto.createHmac('sha256', 'S0A6zi0OqqbyF4MF5PYI04Cz')
@@ -977,7 +980,7 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
             product_id : req.body.bid_id,
             user_id : rootUser._id,
             amount : 0,
-            lastbid :Date.now,
+            lastbid : Date.now(),
             accept_status : true,
         })
         // bidJoinedConfirmation.save()
@@ -985,8 +988,56 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
     res.status(200).json({reference : req.body.razorpay_payment_id})
 } else {
     res.status(401).json("Error")
-}
+    }
 
+})
+
+app.get('/api/getcurrentbiddings/:id',async(req,res)=>{
+    const{id}=req.params;
+    console.log("From Current Biddings",id)
+    const result=await bidJoinedDB.find({product_id:id}).populate("user_id")
+    // console.log("Length",result.length)
+    if(result.length !== undefined)
+    {
+        res.status(200).json(result)
+    }
+    else
+    {
+        res.status(422).json("error")
+    }
+})
+app.get('/api/getmybids',async(req,res)=>{
+    const token=req.headers.authorization;
+    const verifyUser=jwt.verify(token,Skey)
+    if(verifyUser)
+    {
+        // console.log(verifyUser._id)
+        const bidData=await bidJoinedDB.find({user_id:verifyUser._id}).populate("product_id")
+        // console.log("sdvs",bidData)
+        if(bidData.length !==undefined)
+        {
+            res.status(200).json(bidData)
+        }
+    }
+    else
+    {
+        res.status(422).json("please login")
+    }
+})
+
+app.get('/api/getjoinedbids/:id',async(req,res)=>{
+    const{id}=req.params;
+    console.log("From Current Biddings",id)
+    const result=await bidJoinedDB.find({_id:id}).populate("user_id")
+    // console.log("Length",result.length)
+    if(result.length !== undefined)
+    {
+        res.status(200).json(result)
+    }
+    else
+    {
+        res.status(422).json("error")
+    }
 })
 
 // const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])
