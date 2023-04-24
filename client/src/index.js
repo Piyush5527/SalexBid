@@ -38,6 +38,8 @@ import ShowOrders from './admin/ShowOrders';
 import ShowFeedbacks from './admin/ShowFeedbacks';
 import AdminMyOrderDetails from './admin/AdminMyOrderDetails';
 import AdminShowFeedbackDetails from './admin/AdminShowFeedbackDetails';
+import OnGoingBid from './Bids/OnGoingBid';
+import JoinedBids from './Bids/JoinedBids';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -92,6 +94,8 @@ root.render(
       <Route path="/BidsPage" element={<BidsPage />} />
       <Route path="/BidDetails/:id" element={<ViewBidDetails />} />
       <Route path="/JoinBidPayment/:id" element={<JoinBidPayment />} />
+      <Route path="/OnGoingBid/:id" element={<OnGoingBid />} />
+      <Route path="/JoinedBids" element={<JoinedBids />} />
 
     </Routes>
   </BrowserRouter>
