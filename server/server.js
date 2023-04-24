@@ -390,6 +390,17 @@ app.get('/api/getproduct',async(req,res)=>{
     }
 });
 
+app.get("/api/getproductid/:id", async (req, res) => {
+    try {
+        const {id} = req.params; 
+        const productDataId = await Product.findById({_id: id});
+        res.status(201).json(productDataId)
+        // console.log(userdata);
+    } catch (error) {
+        res.status(422).json(error);
+    }
+})
+
 app.delete("/api/deleteproduct/:id", async (req, res) => {
     try {
         const { id } = req.params;
