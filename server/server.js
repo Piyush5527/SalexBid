@@ -1303,6 +1303,34 @@ app.get('/api/getjoinedbids/:id',async(req,res)=>{
     }
 })
 
+app.post('/api/updateamountbid/:id',async(req,res)=>{
+    try
+    {
+        const token=req.headers.authorization;
+        const verifytoken=jwt.verify(token,Skey)
+        const amt=req.body.newamt;
+        const bidId=req.params.id
+        console.log(bidId,amt,verifytoken)
+        if(verifytoken)
+        {
+                const updateAmount=await bidJoinedDB.updateOne({product_id:bidId,user_id:verifytoken._id},
+                    {amount:amt})
+                // console.log(updateAmount)
+                res.status(200).json("done")
+
+        }
+        else
+        {
+            console.log("User not logged in")
+            res.status(422).json("User not logged in")
+        }
+    }
+    catch(e)
+    {
+        console.log(e)
+        res.status(422).json(e)
+    }
+})
 // const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])
 // ls.stdout.on('data',(data)=>{
 //     console.log(`stdoutput ${data}`);
