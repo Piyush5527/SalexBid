@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import NavbarAdmin from '../Navbar/NavbarAdmin';
 const EditCategory = () => {
 
     const [category,setCategory]=useState("")
@@ -56,7 +57,9 @@ const EditCategory = () => {
         getCategoryById(id);
     },[])
   return (
+   
     <div>
+       <NavbarAdmin />
         <form className='login'>
             <h3>Update Category</h3>
             {/* <input type="hidden" name='catid' value={categoryId}/> */}

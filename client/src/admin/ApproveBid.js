@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styles from '../css/shared.module.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import NavbarAdmin from '../Navbar/NavbarAdmin';
 const ApproveBid = () => {
     const { id } = useParams("")
     const navigate = useNavigate()
@@ -51,6 +52,7 @@ const ApproveBid = () => {
       },[])
   return (
     <Fragment>
+        <NavbarAdmin />
         <div className={styles.main_container}>
             <h2 style={{textAlign:"center"}}>Evaluate Bid</h2>
         <div className='registration'>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React,{useEffect,useState} from 'react';
 import styles from '../css/viewcategory.module.css';
 import {NavLink} from 'react-router-dom';
+import NavbarAdmin from '../Navbar/NavbarAdmin';
 const ViewCategory = () => {
 
     const [catList,setCatList]=useState([])
@@ -38,6 +39,7 @@ const ViewCategory = () => {
     },[])
   return (
     <div className={styles.main_container}>
+        <NavbarAdmin></NavbarAdmin>
         <h2 className={styles.title}>View All Categories</h2>
         <NavLink to={'/AddCategory'} className="btn btn-success">Add New Category</NavLink>
         <table className={styles.table_container}>

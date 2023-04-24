@@ -32,6 +32,12 @@ import ViewMyBids from './Bids/ViewMyBids';
 import BidsPage from './Bids/BidsPage';
 import ViewBidDetails from './Bids/ViewBidDetails';
 import JoinBidPayment from './Bids/JoinBidPayment';
+import AdminHomePage from './admin/AdminHomePage';
+import AdminLogin from './admin/AdminLogin';
+import ShowOrders from './admin/ShowOrders';
+import ShowFeedbacks from './admin/ShowFeedbacks';
+import AdminMyOrderDetails from './admin/AdminMyOrderDetails';
+import AdminShowFeedbackDetails from './admin/AdminShowFeedbackDetails';
 import OnGoingBid from './Bids/OnGoingBid';
 import JoinedBids from './Bids/JoinedBids';
 
@@ -61,10 +67,22 @@ root.render(
       <Route path="/AddCategory" element={<AddCategory />} />
       <Route path="/ViewCategory" element={<ViewCategory />} />
       <Route path="/EditCategory/:id" element={<EditCategory />} />
+
+      <Route path="/AdminHomePage" element={<AdminHomePage />} />
+      <Route path="/ShowOrders" element={<ShowOrders />} />
+      <Route path ="/AdminMyOrderDetails/:id" element={<AdminMyOrderDetails />} />
+      <Route path="/AdminLogin" element={<AdminLogin />} />
+      
+
+      <Route path="/ViewAllBids" element={<ViewAllBids />} />
       
       <Route path="/AddProduct" element={<Addproducts />} />
       <Route path ="/EditProduct/:id" element={<EditProduct />} />
       <Route path="/ShowProducts" element={<ShowProducts />} />
+      
+      <Route path="/ShowFeedbacks" element={<ShowFeedbacks />} />
+      <Route path="/AdminShowFeedbackDetails/:id" element={<AdminShowFeedbackDetails />} />
+      
       <Route path="/getProductDetail/:id" element={<ViewSingleProduct />} />
 
       <Route path="/AccountPage" element={<AccountPage />} />

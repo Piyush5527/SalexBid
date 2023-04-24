@@ -2,6 +2,7 @@ import axios from 'axios';
 import React,{useState} from 'react';
 import Errormsg from '../shared/Errormsg';
 import { useNavigate } from 'react-router-dom';
+import NavbarAdmin from '../Navbar/NavbarAdmin';
 
 const AddCategory = () => {
     const navigate=useNavigate();
@@ -38,6 +39,7 @@ const AddCategory = () => {
     }
   return (
     <div>
+        <NavbarAdmin></NavbarAdmin>
         <form className='login'>
             <h3>Add Category</h3>
             <label for="productName">Category Name<span style={{color:'red'}}>*</span></label>
