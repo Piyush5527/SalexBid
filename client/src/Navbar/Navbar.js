@@ -98,6 +98,7 @@ const Navbar = () => {
                 {/* <a class="dropdown-item" href="product-single.html">Single Product</a> */}
                 <a class="dropdown-item" href="/Cart">Cart</a>
                 <a class="dropdown-item" href="/Cart">Checkout</a>
+                <a class="dropdown-item" href="/MyOrders">My Orders</a>
 				{/* <a class="dropdown-item" href="/Account">Account</a> */}
               </div>
             </li>
@@ -107,7 +108,7 @@ const Navbar = () => {
 						<a class="dropdown-item" href="/BidsPage">Bids Page</a>
 						<a class="dropdown-item" href="/CreateBid">Create Bid</a>
 						<a class="dropdown-item" href="/ViewMyBids">My Bids</a>
-						<a class="dropdown-item" href="/Cart">Joined Bids</a>
+						<a class="dropdown-item" href="/JoinedBids">Joined Bids</a>
 						<a class="dropdown-item" href="checkout.html">History</a>
 
 					</div>
