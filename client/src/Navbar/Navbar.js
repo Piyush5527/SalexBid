@@ -16,9 +16,12 @@ import "../css/style.css";
 
 const Navbar = () => {
 	const navigate=useNavigate();
+	var totalQty = 0;
+
 
 	const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
 	const [userId, setUserId] = useState(null);
+	const [cartItems, setCartItems] = useState([]);
 	useEffect(()=>{
 		setUserId(localStorage.getItem('usersdatatoken'))
 		if(userId)
@@ -27,6 +30,29 @@ const Navbar = () => {
 
 		}
 	},[isUserLoggedIn,userId])
+
+	const getCartItems = async (event) => {
+        //event.preventDefault()
+        const token = localStorage.getItem('usersdatatoken');
+        console.log(token)
+
+        const cartItems = await fetch("http://localhost:1337/api/getcartitems",{
+            method : "GET",
+            headers : {
+                "Content-Type" : "application/json",
+                "Authorization" : token
+            }
+        })
+
+        const getCartItems = await cartItems.json();
+
+        if(getCartItems.status === 401 || !getCartItems){
+            console.log("error")
+        } else {
+            console.log("User : ",getCartItems)
+            setCartItems(getCartItems)
+        }
+    }
 	
 
 	const logoutHandler=async()=>{
@@ -47,8 +73,12 @@ const Navbar = () => {
 			window.location.reload(false);
 		}
 	}
+	useEffect(()=>{
+		getCartItems()
+	},[])
   return (
     <div>
+		 {cartItems.length > 0 ? cartItems.map((item)=>{totalQty+=item.qty}) : ""}
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	      <a class="navbar-brand" style={{color:'black'}}>Sale X Bid</a>
@@ -67,7 +97,7 @@ const Navbar = () => {
               	<a class="dropdown-item" href="shop">Shop</a>
                 {/* <a class="dropdown-item" href="product-single.html">Single Product</a> */}
                 <a class="dropdown-item" href="/Cart">Cart</a>
-                <a class="dropdown-item" href="checkout.html">Checkout</a>
+                <a class="dropdown-item" href="/Cart">Checkout</a>
 				{/* <a class="dropdown-item" href="/Account">Account</a> */}
               </div>
             </li>
@@ -91,7 +121,7 @@ const Navbar = () => {
                 
               </div>
             </li>
-	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="/Cart" class="nav-link"><span class="icon-shopping_cart"></span>{totalQty}</a></li>
 
 	        </ul>
 	      </div>
