@@ -4,6 +4,7 @@ import { Navigate, useParams, useNavigate } from 'react-router-dom'
 import '../UI/Card';
 import pic from "../icons/account.svg";
 import NavbarBoots from '../Navbar/Navbar';
+import styles from "../css/shared.module.css"
 import axios from 'axios';
 const PlaceOrder = () => {
 
@@ -102,7 +103,7 @@ const PlaceOrder = () => {
                 description: "Test Transaction",
                 image: pic,
                 order_id: getCheckOut.id, 
-                //callback_url: "http://localhost:1337/api/paymentverification",
+                callback_url: "http://localhost:1337/api/paymentverification",
                 handler: async function (response){
                     var formData = new FormData();
     
@@ -172,7 +173,7 @@ const PlaceOrder = () => {
     }, [])
     return (<Fragment>
        <NavbarBoots/>
-        <div className='design_container'>
+        <div className={styles.main_container_navbar}>
             <h4>YOUR ITEMS</h4>
             <table class="table">
           <thead>
@@ -210,9 +211,9 @@ const PlaceOrder = () => {
         </tbody>
         </table>
             <br></br><br></br><br></br>
-            <table>
+            <table className={styles.center_item}>
                 <tr>
-                    <td>Deliver To : {currentUser.first_name+" "+currentUser.last_name},{" "+address.pincode}</td>
+                    <td>Deliver To : {currentUser.full_name},{" "+address.pincode}</td>
                 </tr>
                 <tr>
                     <td>{address.street}</td>
@@ -224,9 +225,9 @@ const PlaceOrder = () => {
                     <td>{address.phone}</td>
                 </tr>
             </table>
-        </div>
+        
         <br></br><br></br>
-        <div className='design_container'>
+        <div className={styles.center_item}>
             <table>
                 <tr>
                     <th>PRICE DETAILS</th>
@@ -248,13 +249,14 @@ const PlaceOrder = () => {
             </table>
         </div>
         <br></br>
-        <div>
-            <button className='btn btn-success' style={{marginLeft: 'auto',marginRight: 'auto',display: 'block'}} onClick={()=>checkOutHandler(address._id)}>PAY ONLINE</button><br></br>
+        <div className={styles.width_25}>
+            <button className='btn btn-success'  onClick={()=>checkOutHandler(address._id)}>PAY ONLINE</button><br></br>
         </div>
-        <div>
-            <button className='btn btn-success' style={{marginLeft: 'auto',marginRight: 'auto',display: 'block'}} onClick={()=>cashOnDeliveryHandler(address._id)}>PAY ON DELIVERY</button>
+        <div  className={styles.width_25}>
+            <button className='btn btn-primary' onClick={()=>cashOnDeliveryHandler(address._id)}>PAY ON DELIVERY</button>
             {/* <button className='btn btn-success' style={{marginLeft: 'auto',marginRight: 'auto',display: 'block'}}>PLACE ORDER</button> */}
 
+        </div>
         </div>
         </Fragment>
     )
