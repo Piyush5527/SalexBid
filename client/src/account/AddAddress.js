@@ -52,7 +52,7 @@ const AddAddress = () => {
     <section>
       <div className='form_data'>
         <div className='form_heading'>
-          <h1>Add Address</h1>
+          <h3 style={{textAlign:'center'}}>Add Address</h3>
           
         </div>
         <form>

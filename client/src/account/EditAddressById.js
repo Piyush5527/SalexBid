@@ -74,7 +74,7 @@ const EditAddressById = () => {
       <section>
         <div className='form_data'>
           <div className='form_heading'>
-            <h1>Edit Address</h1>
+            <h3  style={{textAlign:'center'}}>Edit Address</h3>
 
           </div>
           <form>

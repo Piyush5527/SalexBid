@@ -1240,7 +1240,7 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
             product_id : req.body.bid_id,
             user_id : rootUser._id,
             amount : 0,
-            lastbid :Date.now,
+            lastbid :Date.now(),
             accept_status : true,
         })
         // bidJoinedConfirmation.save()
