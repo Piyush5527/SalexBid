@@ -64,7 +64,7 @@ const Navbar = () => {
 	          <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
-              	<a class="dropdown-item" href="shop">Shop</a>
+              	<a class="dropdown-item" href="/shop">Shop</a>
                 {/* <a class="dropdown-item" href="product-single.html">Single Product</a> */}
                 <a class="dropdown-item" href="/Cart">Cart</a>
                 <a class="dropdown-item" href="checkout.html">Checkout</a>

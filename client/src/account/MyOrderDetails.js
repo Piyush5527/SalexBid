@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import NavbarBoots from '../Navbar/Navbar'
+import styles from "../css/shared.module.css"
 import '../UI/Card';
 
 const MyOrderDetails = () => {
@@ -38,8 +39,9 @@ const MyOrderDetails = () => {
     }, [])
 
     return (
-        <div>
+        <Fragment>
             <NavbarBoots />
+        <div className={styles.main_container_navbar}>
         
             <div className="design_container">
             <h4>YOUR ORDER DETAILS</h4>
@@ -86,6 +88,7 @@ const MyOrderDetails = () => {
 
             </div>
         </div>
+        </Fragment>
     )
 }
 

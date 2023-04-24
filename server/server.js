@@ -15,6 +15,8 @@ const Cart = require('./models/cart.model');
 const Order = require('./models/order.model');
 const FinalOrder = require('./models/final_order.model');
 const Bid=require('./models/biddetails.model');
+const bidJoinedDB=require("./models/bidjoined.model");
+const transactionDB=require("./models/transactions.model");
 const {spawn}=require('child_process');
 
 const { application } = require("express")
@@ -878,6 +880,103 @@ app.get("/api/logout", (req, res) => {
     // req.session.destroy();
     return res.json({status : 'ok'})
 });
+
+app.get("/api/checkpaymentneed/:id",async(req,res)=>{
+    try
+    {
+        const {id}=req.params;
+        const token=req.headers.authorization;
+        const verifytoken = jwt.verify(token,Skey);
+        // const verifytoken=jwt.verify(token,Skey);
+        console.log("in payment need",verifytoken._id,id);
+        const PaymentChecker=bidJoinedDB.findOne({user_id:verifytoken._id,product_id:id})
+        console.log("Payment detail",PaymentChecker._id)
+        if(PaymentChecker._id !== undefined) 
+        {
+            console.log("Payment Not needed")
+            res.status(200).json(false)
+        }
+        else
+        {
+            console.log("Payment Needed")
+            res.status(200).json(true)
+        }
+
+    }
+    catch(error)
+    {
+        res.status(422).json("Error")
+        console.log(error)
+    }
+});
+
+app.post('/api/joinbidpayment/:id',async(req,res)=>{
+    try
+    {
+        const {id}=req.params;
+        const token=req.headers.authorization;
+        const verifyToken=jwt.verify(token,Skey);
+        if(verifyToken)
+        {
+
+        }
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+})
+app.get('/api/getorderforbid',async(req,res)=>{
+    const options = {
+        amount : 5000,
+        currency : "INR",
+    };
+
+    const order = await razorpayInstance.orders.create(options)
+    console.log("In order generation ",order)
+    res.status(200).json(order)
+})
+app.post('/api/paymentverificationforbids',async(req,res)=>{
+    console.log("In Payment Verification for bids")
+    console.log("Payment Id : ",req.body)
+    const token =  req.headers.authorization;
+    const verifytoken = jwt.verify(token, Skey)
+    // console.log(verifytoken._id)
+    // console.log(verifytoken);
+    const rootUser = await User.findOne({_id:verifytoken._id})
+    let body=req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+    var expectedSignature = crypto.createHmac('sha256', 'S0A6zi0OqqbyF4MF5PYI04Cz')
+                                    .update(body.toString())
+                                    .digest('hex');
+    console.log("sig received " ,req.body.razorpay_signature);
+    console.log("sig generated " ,expectedSignature);
+    if(expectedSignature === req.body.razorpay_signature){
+    console.log("Signature Matched")
+    
+    const transactionData=await transactionDB.create({
+        user_id : rootUser._id,
+        t_id : req.body.razorpay_payment_id,
+        amount : req.body.razorpay_amount,
+        reason : req.body.reason,
+        product_id :req.body.bid_id,
+    })
+    // transactionData.save()
+    if(transactionData) {
+        const bidJoinedConfirmation=bidJoinedDB.create({
+            product_id : req.body.bid_id,
+            user_id : rootUser._id,
+            amount : 0,
+            lastbid :Date.now,
+            accept_status : true,
+        })
+        // bidJoinedConfirmation.save()
+    }
+    res.status(200).json({reference : req.body.razorpay_payment_id})
+} else {
+    res.status(401).json("Error")
+}
+
+})
 
 // const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])
 // ls.stdout.on('data',(data)=>{

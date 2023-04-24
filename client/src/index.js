@@ -31,6 +31,7 @@ import ApproveBid from './admin/ApproveBid';
 import ViewMyBids from './Bids/ViewMyBids';
 import BidsPage from './Bids/BidsPage';
 import ViewBidDetails from './Bids/ViewBidDetails';
+import JoinBidPayment from './Bids/JoinBidPayment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -72,6 +73,7 @@ root.render(
       <Route path="/ViewMyBids" element={<ViewMyBids />} />
       <Route path="/BidsPage" element={<BidsPage />} />
       <Route path="/BidDetails/:id" element={<ViewBidDetails />} />
+      <Route path="/JoinBidPayment/:id" element={<JoinBidPayment />} />
 
     </Routes>
   </BrowserRouter>

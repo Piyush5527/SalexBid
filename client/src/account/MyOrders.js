@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import NavbarBoots from "../Navbar/Navbar";
+import styles from "../css/shared.module.css";
 import '../UI/Card';
 
 const MyOrders = () => {
@@ -37,7 +38,7 @@ const MyOrders = () => {
     return (
         <div>
             <NavbarBoots />
-            <div className="design_container">
+            <div className={styles.main_container_navbar}>
                 <table class="table">
                     <thead>
                         <tr>

@@ -11,11 +11,14 @@ const ViewBidDetails = () => {
     const [bidDetail,setBidDetail]=useState('')
     const [started,setStartedState] = useState(0)
     const [message,setMessage]=useState('')
-    const getBidDetail=async()=>{
+    const getBidDetail=async()=>
+        {
+            
             const data = await fetch(`http://localhost:1337/api/getbidbyid/${id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
+               
             }
         })
         const result=await data.json();
@@ -58,7 +61,7 @@ const ViewBidDetails = () => {
       },[bidDetail])
 
       const joinBidHandler =(id)=>{
-        console.log(id)
+        navigate(`/JoinBidPayment/${id}`)
       }
   return (
     <Fragment>

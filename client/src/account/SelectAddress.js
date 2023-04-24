@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import NavbarBoots from '../Navbar/Navbar'
+import styles from '../css/shared.module.css'
 import '../UI/Card';
 
 const SelectAddress = () => {
@@ -44,8 +45,8 @@ const SelectAddress = () => {
     return (
         <Fragment>
             <NavbarBoots />
-            <div className='design_container'>
-            <h1>Select Address</h1>
+            <div className={styles.main_container_navbar}>
+            <h3>Select Address</h3>
             <table class="table">
                 <thead>
                     <tr>
