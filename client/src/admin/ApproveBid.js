@@ -9,6 +9,18 @@ const ApproveBid = () => {
     const navigate = useNavigate()
     const [bidDetail,setBidDetail]=useState('')
     const [approveState,setApproveState] = useState('false')
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
+
     const getBidDetail=async()=>{
             const data = await fetch(`http://localhost:1337/api/getbidbyid/${id}`, {
             method: "GET",
@@ -53,6 +65,7 @@ const ApproveBid = () => {
   return (
     <Fragment>
         <NavbarAdmin />
+        {isUserLoggedIn==false?"":
         <div className={styles.main_container}>
             <h2 style={{textAlign:"center"}}>Evaluate Bid</h2>
         <div className='registration'>
@@ -76,7 +89,7 @@ const ApproveBid = () => {
             {/* <button onClick={(e)=>{ bidDataHandler(bidDetail._id)}}>UPDATE</button> */}
         </div>
         </div>
-
+        }
     </Fragment>
   )
 }

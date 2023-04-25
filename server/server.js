@@ -362,6 +362,81 @@ app.get("/api/getusercnt",async(req,res)=>{
         res.status(422).json(error);
     }
 });
+
+
+app.get("/api/getmytransactions", async (req, res)=>{
+    try{
+        console.log("In My Transactions");
+        const token =  req.headers.authorization;
+        
+        const verifytoken = jwt.verify(token, Skey)
+        
+        const rootUser = await User.findOne({_id:verifytoken._id})
+        console.log("Root User ID : ",rootUser._id)
+        const currentCart = await transactionDB.find({user_id : rootUser._id}).populate('user_id');
+        console.log(currentCart);
+        res.status(201).json(currentCart);
+          
+    } catch (err){
+        res.status(401).json(currentCart);
+        console.log(err)
+    }
+});
+
+app.get("/api/getalltransactions", async (req, res)=>{
+    try{
+        console.log("In My Transactions");
+        const currentCart = await transactionDB.find().populate('user_id');
+        console.log(currentCart);
+        res.status(201).json(currentCart);
+          
+    } catch (err){
+        res.status(401).json(currentCart);
+        console.log(err)
+    }
+});
+
+app.get("/api/getallusers", async (req, res)=>{
+    try{
+        console.log("In My Transactions");
+        const users = await User.find();
+        console.log(users);
+        res.status(201).json(users);
+          
+    } catch (err){
+        res.status(401).json(currentCart);
+        console.log(err)
+    }
+});
+
+app.get("/api/getuserbyid/:id", async (req, res)=>{
+    try{
+        const {id} = req.params; 
+        const userData=await User.findById(id);
+        res.status(201).json(userData);
+    }
+    catch(error)
+    {
+        res.status(422).json(error);
+    }
+});
+
+app.get("/api/approveuserbyid/:id", async (req, res)=>{
+    try {
+        const { id } = req.params
+        const updateUser = await User.findByIdAndUpdate(id, {verification_status:true}, {
+            new: true
+        });
+        // console.log("243 =>"+updateBrand);
+        res.status(201).json(updateUser)
+    } catch (error) {
+        res.status(422).json(error)
+    }
+});
+
+
+
+
 app.get("/api/getproductcnt",async(req,res)=>{
     try{
         const productData=await Product.find();
@@ -571,34 +646,47 @@ async function comparePassword(plaintextPassword, hash) {
 
 app.post('/api/login', async (req, res) => {
     console.log(req.body.email,req.body.password);
-    const user1 = await User.findOne({
-        email : req.body.email, 
-        // password : req.body.password, 
-    })
-    if(user1 !== null)
-    {
-        console.log("test:",user1);
-        passwordMatch=await comparePassword( req.body.password,user1.password)
-        
-        if(user1 && passwordMatch) {
-            const token = jwt.sign({
-                // name : user.name,
-                _id : user1._id,
-                
-            }, Skey,
-            {expiresIn : "1d"});
-            
-            user1.tokens = user1.tokens.concat({token:token})
-            await user1.save()
-            
-        
-            return res.json({ status : 'ok', user : token})
-        }else {
-            return res.json({ status : 'error', user : false})
-        }
+    if(req.body.email==="admin@gmail.com" && req.body.password === "Admin@123"){
+        console.log("Admin Login")
+        res.json({ status : 'adminlogin', admin:"admin@gmail.com"});
     }
     else{
-        return res.json({status:'nouser', user : false});
+        const user1 = await User.findOne({
+            email : req.body.email, 
+            // password : req.body.password, 
+        })
+        if(user1 !== null)
+        {    
+            if(user1.verification_status===true)
+            {
+                console.log("test:",user1);
+                passwordMatch=await comparePassword( req.body.password,user1.password)
+                
+                if(user1 && passwordMatch) {
+                    const token = jwt.sign({
+                        // name : user.name,
+                        _id : user1._id,
+                        
+                    }, Skey,
+                    {expiresIn : "1d"});
+                    
+                    user1.tokens = user1.tokens.concat({token:token})
+                    await user1.save()
+                    
+                
+                    return res.json({ status : 'ok', user : token})
+                }else {
+                    return res.json({ status : 'error', user : false})
+                }
+            }
+            else
+            {
+                return res.json({status:'notapproved', user : false});
+            }
+        }
+        else{
+            return res.json({status:'nouser', user : false});
+        }
     }
     
 })
@@ -640,6 +728,21 @@ app.get('/api/getproducts',async(req,res)=>{
     {
         console.log(err)
         res.status(422).json(err)
+    }
+});
+
+app.get('/api/getsearchproduct/:key',async(req,res)=>{
+    try {
+        let result = await Product.find({
+            "$or" : [
+                {product_name:{$regex:req.params.key}},
+                {short_desc:{$regex:req.params.key}},
+                {long_desc:{$regex:req.params.key}}
+            ]
+        });
+        res.send(result)
+    } catch (error) {
+        console.log(error);
     }
 });
 
@@ -1253,7 +1356,7 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
     res.status(401).json("Error")
     }
 
-})
+});
 
 app.get('/api/getcurrentbiddings/:id',async(req,res)=>{
     const{id}=req.params;
@@ -1268,7 +1371,10 @@ app.get('/api/getcurrentbiddings/:id',async(req,res)=>{
     {
         res.status(422).json("error")
     }
-})
+});
+
+
+
 app.get('/api/getmybids',async(req,res)=>{
     const token=req.headers.authorization;
     const verifyUser=jwt.verify(token,Skey)

@@ -15,6 +15,9 @@ const AdminHomePage = () => {
   const [categoryCnt,setCategoryCnt]=useState("");
   const [subCategoryCnt,setSubCategoryCnt]=useState("");
   const [lowStockCnt,setLowStockCnt]=useState("");
+  const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+	
 
 
   const getUserCnt = async () => {
@@ -184,6 +187,17 @@ const AdminHomePage = () => {
       setUnitSelled(unitSelledData);
     }
   }
+
+  
+	useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
   useEffect(() => {
     getUserCnt()
     getproductCnt()
@@ -200,22 +214,27 @@ const AdminHomePage = () => {
 
   return (
     <Fragment>
-      <AdminNavbar />
-      <div className={styles.main_container}>
-        <AdminDashboardCard header='User Count' value={userCnt} />
-        <AdminDashboardCard header='Product Count' value={productCnt} />
-        <AdminDashboardCard header='Order Count' value={orderCnt} />
-        <AdminDashboardCard header='Orders Completed' value={compOrderCnt} />
-        <AdminDashboardCard header='Total Sales' value={totalSales+" Rs"} />
-        <AdminDashboardCard header='This Month Sales' value={thisMonthSales+" Rs"} />
-        <AdminDashboardCard header='Unit Selled' value={unitSelled} />
-        <AdminDashboardCard header='Low Stock(<10)' value={lowStockCnt} />
-        <div className={styles.container_center}>
-          <AdminDashboardCard header='Category Count' value={categoryCnt} />
-          <AdminDashboardCard header='Feedbacks Count' value={feedbackCnt} />
+        
+        <AdminNavbar />
+        {isUserLoggedIn==false?"":
+        <div className={styles.main_container}>
+          <AdminDashboardCard header='User Count' value={userCnt} />
+          <AdminDashboardCard header='Product Count' value={productCnt} />
+          <AdminDashboardCard header='Order Count' value={orderCnt} />
+          <AdminDashboardCard header='Orders Completed' value={compOrderCnt} />
+          <AdminDashboardCard header='Total Sales' value={totalSales+" Rs"} />
+          <AdminDashboardCard header='This Month Sales' value={thisMonthSales+" Rs"} />
+          <AdminDashboardCard header='Unit Selled' value={unitSelled} />
+          <AdminDashboardCard header='Low Stock(<10)' value={lowStockCnt} />
+          <div className={styles.container_center}>
+            <AdminDashboardCard header='Category Count' value={categoryCnt} />
+            <AdminDashboardCard header='Feedbacks Count' value={feedbackCnt} />
+          </div>
         </div>
-      </div>
+        }
+
     </Fragment>
+    
   )
 }
 

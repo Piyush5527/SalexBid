@@ -3,6 +3,7 @@ import styles from '../css/admin/AdminDashboardCard.module.css';
 const AdminDashboardCard = (props) => {
   return (
     <div className={styles.main_card}>
+      
         <h5>{props.header}</h5>
         <hr/>
         <h2>{props.value}</h2>

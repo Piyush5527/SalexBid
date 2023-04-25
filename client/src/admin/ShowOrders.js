@@ -8,6 +8,17 @@ const ShowOrders = () => {
 
     const [myOrders, setMyOrders] = useState([])
 
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
 
     const getMyOrdersById = async (event) => {
 
@@ -35,6 +46,7 @@ const ShowOrders = () => {
     return (
         <Fragment>
             <NavbarAdmin />
+            {isUserLoggedIn==false?"":
             <div className='design_container'>
                 <table class="table">
                     <thead>
@@ -70,6 +82,7 @@ const ShowOrders = () => {
                     </tbody>
                 </table>
             </div>
+            }
         </Fragment>
     )
 }

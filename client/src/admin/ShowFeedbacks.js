@@ -7,6 +7,17 @@ import NavbarAdmin from '../Navbar/NavbarAdmin';
 const ShowFeedbacks = () => {
   const [feedbacks, setFeedbacks] = useState([])
 
+  const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
 
   const getFeedbacks = async (event) => {
 
@@ -34,6 +45,7 @@ const ShowFeedbacks = () => {
   return (
       <Fragment>
           <NavbarAdmin />
+          {isUserLoggedIn==false?"":
           <div className='design_container'>
               <table class="table">
                   <thead>
@@ -67,6 +79,7 @@ const ShowFeedbacks = () => {
                   </tbody>
               </table>
           </div>
+            }
       </Fragment>
   )
 }
