@@ -20,6 +20,17 @@ const EditProduct = () => {
     const {id} = useParams("");
     const navigate = useNavigate()
 
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
     const getCategory = async () => {
         const res = await fetch("http://localhost:1337/api/getcategory", {
             method: "GET",
@@ -108,6 +119,7 @@ const EditProduct = () => {
     return (
         <>
         <NavbarAdmin />
+        {isUserLoggedIn==false?"":
     <section>
       <div className='form_data'>
         <div className='form_heading'>
@@ -200,6 +212,7 @@ const EditProduct = () => {
         </form>
       </div>
     </section>
+    }
     </>
     )
 }

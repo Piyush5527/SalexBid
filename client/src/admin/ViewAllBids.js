@@ -5,6 +5,17 @@ import NavbarAdmin from '../Navbar/NavbarAdmin';
 const ViewAllBids = () => {
   const navigate = useNavigate()
   const [bidList,setBidList] = useState('')
+
+  const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
   
   const getBidData=async()=>{
     const data =await fetch("http://localhost:1337/api/getbiddata",{
@@ -38,6 +49,7 @@ const ViewAllBids = () => {
   return (
     <Fragment>
       <NavbarAdmin></NavbarAdmin>
+        {isUserLoggedIn==false?"":
         <div className={styles.main_container}>
           <h2>View All Bids</h2>
           <table className='table'>
@@ -62,6 +74,7 @@ const ViewAllBids = () => {
             }):""}
           </table>
         </div>
+        }
     </Fragment>
   )
 }

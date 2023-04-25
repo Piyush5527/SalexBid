@@ -12,6 +12,16 @@ const Addproducts = () => {
     const [prodImage,setProdImage]=useState("") 
     const [category_id,setCategoryId]=useState("") 
     const [catList,setCatList]=useState([])
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
     
 
     const getCategory=async()=>{
@@ -79,6 +89,7 @@ const Addproducts = () => {
         
     <div>
         <NavbarAdmin/>
+        {isUserLoggedIn==false?"":
         <form>
         <form className='registration'>
             <h3>Add Product</h3>
@@ -115,6 +126,7 @@ const Addproducts = () => {
             <button onClick={addProductHandler}>Add Product</button>
         </form>    
         </form>
+        }
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Errormsg from '../shared/Errormsg';
 import { useNavigate } from 'react-router-dom';
 import NavbarAdmin from '../Navbar/NavbarAdmin';
@@ -8,6 +8,16 @@ const AddCategory = () => {
     const navigate=useNavigate();
     const [categoryName,setCategoryName]=useState("");
     const [categoryValid,setCategoryValid]=useState(true);
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
 
     const categoryHandler=async(e)=>{
         e.preventDefault();
@@ -40,6 +50,7 @@ const AddCategory = () => {
   return (
     <div>
         <NavbarAdmin></NavbarAdmin>
+        {isUserLoggedIn==false?"":
         <form className='login'>
             <h3>Add Category</h3>
             <label for="productName">Category Name<span style={{color:'red'}}>*</span></label>
@@ -47,6 +58,7 @@ const AddCategory = () => {
             {!categoryValid && <Errormsg message="Invalid Category Name" colors='red'/>}
             <button onClick={categoryHandler}> Add Category</button>
         </form>
+        }
     </div>
   )
 }

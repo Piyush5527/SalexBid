@@ -7,6 +7,17 @@ const ViewCategory = () => {
 
     const [catList,setCatList]=useState([])
 
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
     const getCategoryList = async() =>{
         const res=await fetch("http://localhost:1337/api/getcategory",{
             method: "GET",
@@ -39,9 +50,12 @@ const ViewCategory = () => {
     },[])
   return (
     <div className={styles.main_container}>
-        <NavbarAdmin></NavbarAdmin>
+        <NavbarAdmin />
+        {isUserLoggedIn==false?"":
+        <div className='design_container'>
         <h2 className={styles.title}>View All Categories</h2>
         <NavLink to={'/AddCategory'} className="btn btn-success">Add New Category</NavLink>
+        
         <table className={styles.table_container}>
             <tr>
                 <th>Sr. No.</th>
@@ -60,6 +74,8 @@ const ViewCategory = () => {
                 )
             })}
         </table>
+        </div>
+        }
     </div>
   )
 }

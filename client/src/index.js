@@ -40,6 +40,10 @@ import AdminMyOrderDetails from './admin/AdminMyOrderDetails';
 import AdminShowFeedbackDetails from './admin/AdminShowFeedbackDetails';
 import OnGoingBid from './Bids/OnGoingBid';
 import JoinedBids from './Bids/JoinedBids';
+import MyTransactions from './account/MyTransactions';
+import ShowTransactions from './admin/ShowTransactions';
+import ShowUsers from './admin/ShowUsers';
+import ShowUserDetails from './admin/ShowUserDetails';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -56,6 +60,7 @@ root.render(
 
       <Route path ="/MyOrders" element={<MyOrders />} />
       <Route path ="/MyOrderDetails/:id" element={<MyOrderDetails />} />
+      <Route path ="/MyTransactions" element={<MyTransactions />} />
 
       <Route path="/Home" element={<Homepage />} />
       <Route path="/Shop" element={<Shop />} />
@@ -75,10 +80,14 @@ root.render(
       
 
       <Route path="/ViewAllBids" element={<ViewAllBids />} />
+      <Route path="/ShowTransactions" element={<ShowTransactions />} />
       
       <Route path="/AddProduct" element={<Addproducts />} />
       <Route path ="/EditProduct/:id" element={<EditProduct />} />
       <Route path="/ShowProducts" element={<ShowProducts />} />
+
+      <Route path="/ShowUsers" element={<ShowUsers />} />
+      <Route path="/ShowUserDetails/:id" element={<ShowUserDetails />} />
       
       <Route path="/ShowFeedbacks" element={<ShowFeedbacks />} />
       <Route path="/AdminShowFeedbackDetails/:id" element={<AdminShowFeedbackDetails />} />

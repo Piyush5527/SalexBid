@@ -129,7 +129,7 @@ const ViewSingleProduct = () => {
     <Fragment>
       <NavbarBoots></NavbarBoots>
       <div className='main_container'>
-        <h3 className={styles.header}>Product Details</h3>
+        <h3 className={styles.header} style={{textAlign:'center'}}>Product Details</h3>
         <div className={`${styles.main_container} ${styles.right}`}>
           {/* style={{ width: "500px", textAlign: "center", margin: "auto", height: "500px" }} */}
           <img className={styles.productImage} height={350} width={350} variant="top" src={`http://localhost:1337/idProof/${list.prod_image}`} />
@@ -166,7 +166,7 @@ const ViewSingleProduct = () => {
         </div>
       </div>
       <br></br><br></br>
-      <div>
+      <div  className='main_container'>
         <h3>Feedbacks</h3><br></br><br></br>
       {productFeedbacks.map((item)=>{
         feedbackCnt+=1;
@@ -180,12 +180,12 @@ const ViewSingleProduct = () => {
       })}
       </div>
 
-      <div>
+      <div className='main_container'>
       <form className='login'>
             <h3>Feedback</h3>
 
             <label for="username">Your Feedback</label>
-            <textarea name="feedback" onChange={(e) => setFeedback(e.target.value)} value={feedback} id="feedback" />
+            <textarea style={{width:330, height:150}}name="feedback" onChange={(e) => setFeedback(e.target.value)} value={feedback} id="feedback" />
             <button onClick={(e)=>feedbackSubmitHandler(list._id)}>Submit Feedback</button>
         </form>    
       </div>
