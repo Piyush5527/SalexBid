@@ -18,6 +18,11 @@ const Bid=require('./models/biddetails.model');
 const bidJoinedDB=require("./models/bidjoined.model");
 const Feedback = require("./models/feedback.model")
 const transactionDB=require("./models/transactions.model");
+const HistoryDB =require("./models/bid_history.model");
+const BidWinnerDB= require("./models/bid_winners_details.model")
+const RefundDB=require("./models/refund.model")
+
+
 const {spawn}=require('child_process');
 
 const { application } = require("express")
@@ -1329,6 +1334,131 @@ app.post('/api/updateamountbid/:id',async(req,res)=>{
     {
         console.log(e)
         res.status(422).json(e)
+    }
+})
+
+app.get('/api/checkCurrentUser/:id',async(req,res)=>{
+    try{
+        const token=req.headers.authorization;
+        const verifyToken=jwt.verify(token,Skey)
+        if(verifyToken)
+        {
+            const bidId=req.params.id
+            const bidData=await Bid.find({_id:bidId,u_id:verifyToken._id})
+            console.log("length",bidData.length)
+            if(bidData.length === 1 || bidData.length >= 1)
+            {
+                res.status(200).json(true)
+            }
+            else
+            {
+                res.status(200).json(false)
+            }
+        }
+    }
+    catch(err)
+    {
+        res.status(422).json(err)
+    }
+})
+
+app.post('/api/endBid/:id',async(req,res)=>{
+    try{
+        const id = req.params.id;
+        console.log(id)
+        const token=req.headers.authorization;
+        const verifyToken=jwt.verify(token,Skey)
+        if(verifyToken)
+        {
+            let winnerAmount=0
+            let winnerId=""
+            let winnerName=""
+            // productImage
+            const bidData=await Bid.findById(id).populate("u_id")
+            console.log(bidData.length)
+            const productImage=await bidData.image_name;
+            const user_id=await verifyToken._id;
+            const productName=await bidData.product_name;
+            const amount =await bidData.base_price;
+            const username= await bidData.u_id?.full_name;
+            console.log(productImage," ", user_id," ",productName," ",amount," ",username)
+            const currentBidAmounts= await bidJoinedDB.find({product_id:id}).populate("user_id")
+            if(currentBidAmounts.length > 0)
+            {
+                currentBidAmounts.map((item)=>{
+                    if(item.amount > winnerAmount)
+                    {
+                        winnerAmount=item.amount
+                        winnerId=item.user_id._id
+                        winnerName=item.user_id.full_name
+                    }
+                })
+                console.log("in ending bid current winner is ",winnerId," ",winnerName," ",winnerAmount)
+                const deleteBid = await Bid.findByIdAndDelete({ _id: id })
+                if(deleteBid)
+                {
+                    console.log("delete bid successfully")
+                }
+                const deleteJoinedBids=await bidJoinedDB.deleteMany({product_id:id})
+                if(deleteJoinedBids)
+                {
+                    console.log("delete of currrent bids successfully")
+                }
+                const newHistory=HistoryDB.create({
+                    _id:id,
+                    user_id:verifyToken._id,
+                    prod_image:productImage,
+                    product_name:productName,
+                    amount:winnerAmount,
+                    user_name:username,
+                    payment_status:"not done"
+                })
+                if(newHistory)
+                {
+                    console.log("New history created")
+                }
+                const newWinner=BidWinnerDB.create({
+                    user_id:verifyToken._id,
+                    prod_image:productImage,
+                    bid_id:id,
+                    amount:winnerAmount,
+                    product_name:productName,
+                })
+                if(newWinner)
+                {
+                    console.log("new winner created")
+                }
+                // const loseBidder=await bidJoinedDB.aggregate([{"$match":{"$user_id":{"$ne":winnerId}}}])
+                const loseBidder=await bidJoinedDB.find({user_id:{$ne:winnerId},product_id:{$eq:id}})
+                // loseBidder.map((item)=>{
+                //     console.log(item.user_id)
+                // })
+                console.log("line 1436",loseBidder.length)
+                loseBidder.map((item)=>{
+                    RefundDB.create({
+                        user_id:item.user_id
+                    })
+                })
+
+
+                console.log("Ended Bid Successfully")
+                res.status(200).json("success")
+
+            }
+            else
+            {
+                console.log("no data found")
+            }
+        }
+        else
+        {
+            res.status(422).json("login needed")
+        }
+    }
+    catch(err)
+    {
+        res.status(422).json(err)
+        console.log(err)
     }
 })
 // const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])

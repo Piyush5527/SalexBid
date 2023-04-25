@@ -3,9 +3,11 @@ import Navbar from '../Navbar/Navbar'
 import styles from '../css/shared.module.css'
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
 const OnGoingBid = () => {
     const {id}=useParams("");
-    console.log(id)
+    const navigate=useNavigate()
+    // console.log(id)
     const [currentBid,setCurrentBid]=useState("")
     const [currentBiddings,setCurrentBiddings]=useState("")
     const [amt,setAmt]=useState(0)
@@ -28,14 +30,25 @@ const OnGoingBid = () => {
         }
     }
     const checkIsCurretUserMaster=async()=>{
+        const token=localStorage.getItem('usersdatatoken')
         const res=await fetch(`http://localhost:1337/api/checkCurrentUser/${id}`,{
             method:'GET',
             headers:{
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": token
             }
         })
         const result=await res.json();
-        // if(res.status(422) || )
+        // console.log(result)
+        if(res.status===422)
+        {
+            console.log("Error")
+        }
+        else
+        {
+            // console.log(result)
+            setIsMaster(result)
+        }
     }
 
     const getCurrentBiddings = async()=>{
@@ -46,7 +59,7 @@ const OnGoingBid = () => {
             }
         })
         const result =await res.json()
-        console.log(result)
+        // console.log(result)
         if(res.status===422 || !result)
         {
             console.log("Error in fetching the data of biddings")
@@ -62,6 +75,7 @@ const OnGoingBid = () => {
     useEffect(()=>{
         getCurrentBidData()   
         getCurrentBiddings()
+        checkIsCurretUserMaster()
     },[])
 
     const amtSubmitHandler=async(e)=>{
@@ -88,10 +102,33 @@ const OnGoingBid = () => {
         }
     }
 
+    const endBidHandler=async()=>{
+        // console.log(id)
+        var formdata=new FormData()
+        const token=localStorage.getItem('usersdatatoken')
+        const config = {
+            headers: {
+                "Content-Type":  "application/json",
+                "Authorization": token
+            }
+        }
+        const res=await axios.post(`http://localhost:1337/api/endBid/${id}`,formdata,config);
+        if(res.status===422 || !res.data)
+        {
+            console.log("error in ending bid")
+        }
+        else
+        {
+            alert("Bid Ended successfully")
+            navigate('/ViewMyBids')
+        }
+    }
+
   return (
     <Fragment>
         <Navbar/>
         <div className={styles.main_container}>
+            {isMaster && <button className='btn btn-danger' style={{width:100}} onClick={(e)=>{endBidHandler()}}>End Bid</button>}
             <img src={`http://localhost:1337/idProof/${currentBid.image_name}`} className={styles.width_25} style={{marginTop:20}}></img>
             {/* {currentBid.image_name} */}
             

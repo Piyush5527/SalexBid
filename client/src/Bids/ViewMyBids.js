@@ -1,11 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from '../css/shared.module.css'
+import {useNavigate} from 'react-router-dom'
 import Navbar from '../Navbar/Navbar'
+// import { useNavigate } from 'react-router-dom'
 const ViewMyBids = () => {
+    const navigate=useNavigate()
     const [myBidList,setMyBidList]=useState('')
     const getData= async()=>{
         const token = localStorage.getItem('usersdatatoken');
-        console.log(token)
+        // console.log(token)
         const res=await fetch("http://localhost:1337/api/getmybiddata",{
             method: 'GET',
             headers:{
@@ -22,6 +25,10 @@ const ViewMyBids = () => {
         {
             setMyBidList(data)
         }
+    }
+    const checkBidData=async(id)=>{
+        console.log(id)
+        navigate(`/OnGoingBid/${id}`)
     }
 
     useEffect(()=>{
@@ -43,7 +50,7 @@ const ViewMyBids = () => {
                 </tr>
                 {
                     myBidList.length>0? myBidList.map((item)=>{
-                        return(<tr className={item.allowed===true?"table-success":"table-danger"}>
+                        return(<tr className={item.allowed===true?"table-success":"table-danger"} onClick={(e)=>{if(item.allowed){checkBidData(item._id)}}}>
                             <td>{item.product_name}</td>
                             <td>{item.base_price}</td>
                             <td>{item.product_category}</td>

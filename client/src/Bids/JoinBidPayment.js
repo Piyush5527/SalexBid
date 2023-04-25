@@ -11,6 +11,7 @@ const JoinBidPayment = () => {
     const [currentUser,setCurrentUser]=useState('')
     const {id}=useParams("")
     const [order,setOrder]=useState('')
+    const [isMaster,setIsMaster]=useState(false)
     const checkPaymentNeed=async()=>{
         const token=localStorage.getItem('usersdatatoken')
         const res=await fetch(`http://localhost:1337/api/checkpaymentneed/${id}`,{
@@ -32,8 +33,31 @@ const JoinBidPayment = () => {
             setIsPaymentNeeded(result)
         }
     }
+    const checkIsCurretUserMaster=async()=>{
+        const token=localStorage.getItem('usersdatatoken')
+        const res=await fetch(`http://localhost:1337/api/checkCurrentUser/${id}`,{
+            method:'GET',
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization": token
+            }
+        })
+        const result=await res.json();
+        // console.log(result)
+        if(res.status===422)
+        {
+            console.log("Error")
+        }
+        else
+        {
+            console.log(result)
+            setIsMaster(result)
+        }
+    }
+
     useEffect(()=>{
         checkPaymentNeed()
+        checkIsCurretUserMaster()
     },[])
     useEffect(()=>{
         if(isPaymentNeeded === false)
@@ -162,8 +186,10 @@ const JoinBidPayment = () => {
             <Navbar/>
             <div className={styles.main_container_navbar}>
                 <h4 style={{marginTop:50,textAlign:"center"}}>You Need to Pay Rs 50 to join the Bid</h4>
-                {isPaymentNeeded && <button className='btn btn-success' onClick={(e)=>{joinBidPaymentHandler()}}>Pay Rs 50/-</button>}
+                
+                {!isMaster && (isPaymentNeeded && <button className='btn btn-success' onClick={(e)=>{joinBidPaymentHandler()}}>Pay Rs 50/-</button>)}
                 {!isPaymentNeeded && <button className='btn btn-secondary' onClick={(e)=>{navigate(`/OnGoingBid/${id}`)}}> PAID JOINING AMT GO TO BID PAGE</button>}
+                {isMaster && <h5 style={{textAlign:"center"}}>You are the master of the BID Cant join in your own bid</h5>}
             </div>
         </Fragment>
     )
