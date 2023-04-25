@@ -118,6 +118,7 @@ const Navbar = () => {
               <a class="nav-link dropdown-toggle" href="/Account" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Account</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
               	<a class="dropdown-item" href='/AccountPage'>My Account</a>
+				  <a class="dropdown-item" href='/MyTransactions'>My Transactions</a>
               	<a class="dropdown-item" style={{cursor:'pointer'}} onClick={logoutHandler}>Logout</a>
               	<a class="dropdown-item" style={{cursor:'pointer'}} onClick={logoutHandler}>Transactions</a>
                 

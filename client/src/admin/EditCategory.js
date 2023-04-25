@@ -11,6 +11,17 @@ const EditCategory = () => {
     // console.log(id)
     const navigate = useNavigate()
 
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
+
 
     const getCategoryById=async(id)=>{
         const getCategory=await fetch(`http://localhost:1337/api/getcategoryid/${id}`,{
@@ -60,6 +71,7 @@ const EditCategory = () => {
    
     <div>
        <NavbarAdmin />
+       {isUserLoggedIn==false?"":
         <form className='login'>
             <h3>Update Category</h3>
             {/* <input type="hidden" name='catid' value={categoryId}/> */}
@@ -68,6 +80,7 @@ const EditCategory = () => {
             <button onClick={categoryEditHandler}>Edit Category</button>
             
         </form>
+      }
     </div>
   )
 }

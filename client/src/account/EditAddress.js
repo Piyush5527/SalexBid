@@ -65,7 +65,7 @@ const EditAddress = () => {
     <NavbarBoots/>
     <div className='design_container'>
       <NavLink className='btn btn-success' to={"/AddAddress"}>Add Address</NavLink>
-      <h2 style={{textAlign:'center'}}>Your Addresses</h2>
+      <h3 style={{textAlign:'center'}}>Your Addresses</h3>
       <table class="table">
           <thead>
             <tr>

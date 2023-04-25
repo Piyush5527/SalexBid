@@ -8593,6 +8593,7 @@ h1, h2, h3, h4, h5,
   background: #ffa45c; }
 
 .btn {
+  width: 100%;
   cursor: pointer;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;

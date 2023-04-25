@@ -7,7 +7,16 @@ import '../UI/Card';
 const AdminShowFeedbackDetails = () => {
 
     const [myFeedback, setMyFeedback] = useState("")
-   
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
 
     const { id } = useParams("")
 
@@ -36,6 +45,7 @@ const AdminShowFeedbackDetails = () => {
     return (
         <Fragment>
             <NavbarAdmin />
+            {isUserLoggedIn==false?"":
         <div className={styles.main_container_navbar}>
         
             <div className="design_container">
@@ -80,6 +90,7 @@ const AdminShowFeedbackDetails = () => {
 
             </div>
         </div>
+        }
         </Fragment>
     )
 }

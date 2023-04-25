@@ -45,13 +45,23 @@ const Login = () => {
         setPassword("")
         navigate('/Home');
       }
+      else if(res.status === 'adminlogin')
+      {
+        console.log("Admin Login");
+        localStorage.setItem("admindatatoken", res.admin);
+        navigate('/AdminHomePage');
+      }
       else if(res.status === 'nouser')
       {
         console.log("NO USER");
+        alert("User is not found");
         setuserAvl(false);
       }
-      else{
-        alert(res);
+      else if(res.status === 'notapproved'){
+        alert("User is Not Approved by Admin");
+      }
+      else if(res.status === 'error'){
+        alert("Username or Password is Not Valid");
       }
     }
   }

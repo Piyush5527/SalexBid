@@ -8,6 +8,16 @@ const AdminMyOrderDetails = () => {
 
     const [myFinalOrder, setMyFinalOrder] = useState("")
     const [myOrderDetails, setMyOrderDetails] = useState("")
+    const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+    useEffect(()=>{
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
 
     const { id } = useParams("")
 
@@ -31,6 +41,9 @@ const AdminMyOrderDetails = () => {
         }
     }
 
+    
+
+
     useEffect(() => {
         getMyOrderDetails()
     }, [])
@@ -38,6 +51,7 @@ const AdminMyOrderDetails = () => {
     return (
         <Fragment>
             <NavbarAdmin />
+            {isUserLoggedIn==false?"":
         <div className={styles.main_container_navbar}>
         
             <div className="design_container">
@@ -85,6 +99,7 @@ const AdminMyOrderDetails = () => {
 
             </div>
         </div>
+        }
         </Fragment>
     )
 }

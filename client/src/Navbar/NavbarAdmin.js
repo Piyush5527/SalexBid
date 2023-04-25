@@ -16,13 +16,26 @@ import "../css/style.css";
 
 const NavbarAdmin = () => {
 	const navigate=useNavigate();
+	const [isUserLoggedIn,setIsUserLoggedIn]=useState(false);
+	const [userId, setUserId] = useState(null);
+
+	const logoutHandler = async()=>{
+		localStorage.removeItem("admindatatoken")
+		navigate('/Login');
+	}
 	
 	useEffect(()=>{
-		
-	},[])
+		setUserId(localStorage.getItem('admindatatoken'))
+		if(userId)
+		{
+			setIsUserLoggedIn(true)
+
+		}
+	},[isUserLoggedIn,userId])
   return (
-    <div>
-		
+	<div>
+		{isUserLoggedIn==false?"":
+    	
         <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	      <a class="navbar-brand" style={{color:'black'}}>Sale X Bid</a>
@@ -34,7 +47,14 @@ const NavbarAdmin = () => {
 			<div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item active"><a href='/AdminHomePage'  class="nav-link">Home</a></li>
-	          <li class="nav-item dropdown">
+	          
+			  <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Users</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown04">
+						<a class="dropdown-item" href="/ShowUsers">View All Users</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Product</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
               	<a class="dropdown-item" href="/AddProduct">Add Product</a>
@@ -53,6 +73,7 @@ const NavbarAdmin = () => {
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bids</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
 						<a class="dropdown-item" href="/ViewAllBids">View All Bids</a>
+						<a class="dropdown-item" href="/ShowTransactions">Show Bids Transactions</a>
 					</div>
 				</li>
 
@@ -73,7 +94,7 @@ const NavbarAdmin = () => {
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown04">
-						<a class="dropdown-item" href="/AdminLogin">Logout</a>
+						<a class="dropdown-item" onClick={()=>logoutHandler()}>Logout</a>
 					</div>
 				</li>
 	        </ul>
@@ -83,6 +104,7 @@ const NavbarAdmin = () => {
 		
 	    </div>
 	  </nav>
+}
     </div>
   )
 }
