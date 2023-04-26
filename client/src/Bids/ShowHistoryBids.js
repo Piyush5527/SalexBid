@@ -28,21 +28,21 @@ const ShowHistoryBids = () => {
     <Fragment>
         <Navbar/>
         <div className={styles.main_container}>
-            <table className='table table-striped'>
-                <tr>
-                    <th>Sr.No.</th>
-                    <th>Name</th>
-                    <th>Selled Price</th>
-                    <th>Payment Status</th>
-                    <th>Image</th>
-                </tr>
+                <table className='table table-striped'>
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th>Name</th>
+                        <th>Selled Price</th>
+                        <th>Payment Status</th>
+                        <th>Image</th>
+                    </tr>
                 {historyBids.length > 0 ? historyBids.map((item,index)=>{
                     return(<tr>
                         <td>{index+1}</td>
                         <td>{item.product_name}</td>
                         <td>{item.amount}</td>
                         <td>{item.payment_status}</td>
-                        <td><img src={`http://localhost:1337/idProof/${item.prod_image}`}></img></td>
+                        <td><img src={`http://localhost:1337/idProof/${item.prod_image}`} height={70}></img></td>
                     </tr>)
                 }):""}
             </table>

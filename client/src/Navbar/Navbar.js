@@ -109,7 +109,8 @@ const Navbar = () => {
 						<a class="dropdown-item" href="/CreateBid">Create Bid</a>
 						<a class="dropdown-item" href="/ViewMyBids">My Bids</a>
 						<a class="dropdown-item" href="/JoinedBids">Joined Bids</a>
-						<a class="dropdown-item" href="checkout.html">History</a>
+						<a class="dropdown-item" href="/HistoryBids">History</a>
+						<a class="dropdown-item" href="/BidWon">Won Bid</a>
 
 					</div>
 				</li>
@@ -120,7 +121,7 @@ const Navbar = () => {
               	<a class="dropdown-item" href='/AccountPage'>My Account</a>
 				  <a class="dropdown-item" href='/MyTransactions'>My Transactions</a>
               	<a class="dropdown-item" style={{cursor:'pointer'}} onClick={logoutHandler}>Logout</a>
-              	<a class="dropdown-item" style={{cursor:'pointer'}} onClick={logoutHandler}>Transactions</a>
+              	{/* <a class="dropdown-item" style={{cursor:'pointer'}} onClick={logoutHandler}>Transactions</a> */}
                 
               </div>
             </li>

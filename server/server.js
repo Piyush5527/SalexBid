@@ -31,6 +31,7 @@ const Skey = "jujutsukaisengojoyujiandmanymore"
 
 
 const User = require('./models/user.model')
+const WinnerDB = require("./models/bid_winners_details.model")
 
 const razorpay_key_id = "rzp_test_2TuO5NUvU21p95"
 const razorpay_secret_key = "S0A6zi0OqqbyF4MF5PYI04Cz"
@@ -367,81 +368,6 @@ app.get("/api/getusercnt",async(req,res)=>{
         res.status(422).json(error);
     }
 });
-
-
-app.get("/api/getmytransactions", async (req, res)=>{
-    try{
-        console.log("In My Transactions");
-        const token =  req.headers.authorization;
-        
-        const verifytoken = jwt.verify(token, Skey)
-        
-        const rootUser = await User.findOne({_id:verifytoken._id})
-        console.log("Root User ID : ",rootUser._id)
-        const currentCart = await transactionDB.find({user_id : rootUser._id}).populate('user_id');
-        console.log(currentCart);
-        res.status(201).json(currentCart);
-          
-    } catch (err){
-        res.status(401).json(currentCart);
-        console.log(err)
-    }
-});
-
-app.get("/api/getalltransactions", async (req, res)=>{
-    try{
-        console.log("In My Transactions");
-        const currentCart = await transactionDB.find().populate('user_id');
-        console.log(currentCart);
-        res.status(201).json(currentCart);
-          
-    } catch (err){
-        res.status(401).json(currentCart);
-        console.log(err)
-    }
-});
-
-app.get("/api/getallusers", async (req, res)=>{
-    try{
-        console.log("In My Transactions");
-        const users = await User.find();
-        console.log(users);
-        res.status(201).json(users);
-          
-    } catch (err){
-        res.status(401).json(currentCart);
-        console.log(err)
-    }
-});
-
-app.get("/api/getuserbyid/:id", async (req, res)=>{
-    try{
-        const {id} = req.params; 
-        const userData=await User.findById(id);
-        res.status(201).json(userData);
-    }
-    catch(error)
-    {
-        res.status(422).json(error);
-    }
-});
-
-app.get("/api/approveuserbyid/:id", async (req, res)=>{
-    try {
-        const { id } = req.params
-        const updateUser = await User.findByIdAndUpdate(id, {verification_status:true}, {
-            new: true
-        });
-        // console.log("243 =>"+updateBrand);
-        res.status(201).json(updateUser)
-    } catch (error) {
-        res.status(422).json(error)
-    }
-});
-
-
-
-
 app.get("/api/getproductcnt",async(req,res)=>{
     try{
         const productData=await Product.find();
@@ -651,47 +577,34 @@ async function comparePassword(plaintextPassword, hash) {
 
 app.post('/api/login', async (req, res) => {
     console.log(req.body.email,req.body.password);
-    if(req.body.email==="admin@gmail.com" && req.body.password === "Admin@123"){
-        console.log("Admin Login")
-        res.json({ status : 'adminlogin', admin:"admin@gmail.com"});
+    const user1 = await User.findOne({
+        email : req.body.email, 
+        // password : req.body.password, 
+    })
+    if(user1 !== null)
+    {
+        console.log("test:",user1);
+        passwordMatch=await comparePassword( req.body.password,user1.password)
+        
+        if(user1 && passwordMatch) {
+            const token = jwt.sign({
+                // name : user.name,
+                _id : user1._id,
+                
+            }, Skey,
+            {expiresIn : "1d"});
+            
+            user1.tokens = user1.tokens.concat({token:token})
+            await user1.save()
+            
+        
+            return res.json({ status : 'ok', user : token})
+        }else {
+            return res.json({ status : 'error', user : false})
+        }
     }
     else{
-        const user1 = await User.findOne({
-            email : req.body.email, 
-            // password : req.body.password, 
-        })
-        if(user1 !== null)
-        {    
-            if(user1.verification_status===true)
-            {
-                console.log("test:",user1);
-                passwordMatch=await comparePassword( req.body.password,user1.password)
-                
-                if(user1 && passwordMatch) {
-                    const token = jwt.sign({
-                        // name : user.name,
-                        _id : user1._id,
-                        
-                    }, Skey,
-                    {expiresIn : "1d"});
-                    
-                    user1.tokens = user1.tokens.concat({token:token})
-                    await user1.save()
-                    
-                
-                    return res.json({ status : 'ok', user : token})
-                }else {
-                    return res.json({ status : 'error', user : false})
-                }
-            }
-            else
-            {
-                return res.json({status:'notapproved', user : false});
-            }
-        }
-        else{
-            return res.json({status:'nouser', user : false});
-        }
+        return res.json({status:'nouser', user : false});
     }
     
 })
@@ -733,21 +646,6 @@ app.get('/api/getproducts',async(req,res)=>{
     {
         console.log(err)
         res.status(422).json(err)
-    }
-});
-
-app.get('/api/getsearchproduct/:key',async(req,res)=>{
-    try {
-        let result = await Product.find({
-            "$or" : [
-                {product_name:{$regex:req.params.key}},
-                {short_desc:{$regex:req.params.key}},
-                {long_desc:{$regex:req.params.key}}
-            ]
-        });
-        res.send(result)
-    } catch (error) {
-        console.log(error);
     }
 });
 
@@ -1351,7 +1249,7 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
             product_id : req.body.bid_id,
             user_id : rootUser._id,
             amount : 0,
-            lastbid :Date.now(),
+            lastbid : Date.now(),
             accept_status : true,
         })
         // bidJoinedConfirmation.save()
@@ -1361,7 +1259,7 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
     res.status(401).json("Error")
     }
 
-});
+})
 
 app.get('/api/getcurrentbiddings/:id',async(req,res)=>{
     const{id}=req.params;
@@ -1376,10 +1274,7 @@ app.get('/api/getcurrentbiddings/:id',async(req,res)=>{
     {
         res.status(422).json("error")
     }
-});
-
-
-
+})
 app.get('/api/getmybids',async(req,res)=>{
     const token=req.headers.authorization;
     const verifyUser=jwt.verify(token,Skey)
@@ -1524,7 +1419,7 @@ app.post('/api/endBid/:id',async(req,res)=>{
                     console.log("New history created")
                 }
                 const newWinner=BidWinnerDB.create({
-                    user_id:verifyToken._id,
+                    user_id:winnerId,
                     prod_image:productImage,
                     bid_id:id,
                     amount:winnerAmount,
@@ -1567,6 +1462,136 @@ app.post('/api/endBid/:id',async(req,res)=>{
         console.log(err)
     }
 })
+app.get('/api/getHistoryBids',async(req,res)=>{
+    try
+    {
+        const token=req.headers.authorization;
+        const verifyToken=jwt.verify(token,Skey)
+        if(verifyToken)
+        {
+            const getBidData=await HistoryDB.find({user_id:verifyToken._id})
+            if(getBidData.length>0)
+            {
+                res.status(200).json(getBidData)
+            }
+            else
+            {
+                res.status(200).json("Data Not Found")
+            }
+        }
+    }
+    catch(err)
+    {
+        res.status(422).json(err)
+    }
+})
+app.get('/api/getWonBiddings',async(req,res)=>{
+    try
+    {
+        const token=req.headers.authorization;
+        const verifyToken=jwt.verify(token,Skey)
+        if(verifyToken)
+        {
+            const getBidData=await BidWinnerDB.find({user_id:verifyToken._id})
+            if(getBidData.length>0)
+            {
+                res.status(200).json(getBidData)
+            }
+            else
+            {
+                res.status(200).json("Data Not Found")
+            }
+        }
+    }
+    catch(err)
+    {
+        res.status(422).json(err)
+    }
+})
+
+
+
+app.get('/api/getorderforfinalPayment/:amt',async(req,res)=>{
+    const finalamount = req.params.amt
+    const options = {
+        amount : finalamount*100,
+        currency : "INR",
+    };
+
+    const order = await razorpayInstance.orders.create(options)
+    console.log("In order generation ",order)
+    res.status(200).json(order)
+})
+
+app.post('/api/finalpaymentverification',async(req,res)=>{
+    console.log("In Final Verification for bids")
+    console.log("Payment Id : ",req.body)
+    const token =  req.headers.authorization;
+    console.log("Token from payment verification ")
+    const verifytoken = jwt.verify(token, Skey)
+    
+    console.log(verifytoken._id)
+    console.log(verifytoken);
+    const rootUser = await User.findOne({_id:verifytoken._id})
+    let body=req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+    var expectedSignature = crypto.createHmac('sha256', 'S0A6zi0OqqbyF4MF5PYI04Cz')
+                                    .update(body.toString())
+                                    .digest('hex');
+    console.log("sig received " ,req.body.razorpay_signature);
+    console.log("sig generated " ,expectedSignature);
+    if(expectedSignature === req.body.razorpay_signature){
+    console.log("Signature Matched")
+    
+    const transactionData=await transactionDB.create({
+        user_id : rootUser._id,
+        t_id : req.body.razorpay_payment_id,
+        amount : req.body.razorpay_amount,
+        reason : req.body.reason,
+        product_id :req.body.won_bid_id,
+    })
+    // transactionData.save()
+    if(transactionData) {
+        const id=req.body.won_bid_id
+        const updateState=await WinnerDB.findByIdAndUpdate(id,{payment_status:true})
+        if(updateState)
+        {
+            console.log("payment done")
+        }
+    }
+    res.status(200).json({reference : req.body.razorpay_payment_id})
+} else {
+    res.status(401).json("Error")
+    }
+
+})
+
+app.get('/api/gettransaction/:id',async(req,res)=>{
+    try{
+        const {id}=req.params;
+        const token=req.headers.authorization;
+        const verifyToken=jwt.verify(token,Skey)
+        console.log("line 1575")
+        if(verifyToken)
+        {
+            // const trans=req.params.id
+            const transData=await transactionDB.findOne({product_id:id,user_id:verifyToken._id}).populate("user_id")
+            console.log("length : ",transData)
+            if(transData)
+            {
+                res.status(200).json(transData)
+            }
+            else
+            {
+                res.status(422).json("Data not found")
+            }
+        }
+    }
+    catch(err)
+    {
+        res.status(422).json(err)
+    }
+})
+
 // const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])
 // ls.stdout.on('data',(data)=>{
 //     console.log(`stdoutput ${data}`);

@@ -44,6 +44,9 @@ import MyTransactions from './account/MyTransactions';
 import ShowTransactions from './admin/ShowTransactions';
 import ShowUsers from './admin/ShowUsers';
 import ShowUserDetails from './admin/ShowUserDetails';
+import ShowHistoryBids from './Bids/ShowHistoryBids';
+import BiddingWons from './Bids/BiddingWons';
+import Recipt from './Bids/Recipt';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -105,6 +108,10 @@ root.render(
       <Route path="/JoinBidPayment/:id" element={<JoinBidPayment />} />
       <Route path="/OnGoingBid/:id" element={<OnGoingBid />} />
       <Route path="/JoinedBids" element={<JoinedBids />} />
+      <Route path="/HistoryBids" element={<ShowHistoryBids />} />
+      <Route path="/BidWon" element={<BiddingWons />} />
+      <Route path="/Recipt/:id" element={<Recipt />} />
+
 
     </Routes>
   </BrowserRouter>
