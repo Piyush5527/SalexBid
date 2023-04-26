@@ -132,10 +132,11 @@ const OnGoingBid = () => {
             <img src={`http://localhost:1337/idProof/${currentBid.image_name}`} className={styles.width_25} style={{marginTop:20}}></img>
             {/* {currentBid.image_name} */}
             
-            <form onSubmit={(e)=>{amtSubmitHandler(e)}}>
-                <input type="number" min={currentBid.base_price} className={styles.width_25} onChange={(e)=>{setAmt(e.target.value)}}></input>
+            {!isMaster && <form onSubmit={(e)=>{amtSubmitHandler(e)}}>
+                <input type="number" min={currentBid.base_price} className={styles.width_25}placeholder='Enter amount and press Enter' onChange={(e)=>{setAmt(e.target.value)}}></input>
                 <input type="submit" style={{display:"none"}}></input>
             </form>
+            }
             <table className='table table-striped-columns' style={{marginTop:50}}>
             <tr>
                 <th>Sr. No.</th>

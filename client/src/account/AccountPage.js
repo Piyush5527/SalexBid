@@ -103,9 +103,9 @@ const AccountPage = () => {
         
       </table>
       <div className={styles.buttonsGroup}>
-        <NavLink className='btn btn-primary ms-1'  to={"/EditAddress"} >Edit or Add Address</NavLink>
-        <a href='/Login' className='btn btn-danger ms-1' onClick={logoutHandler}>Logout</a>
-        <NavLink className='btn btn-secondary ms-1' to='/MyOrders'>My Orders</NavLink>
+        <NavLink className='btn btn-primary ms-1'  to={"/EditAddress"} style={{margin:20,width:200}}>Edit or Add Address</NavLink>
+        <a href='/Login' className='btn btn-danger ms-1' onClick={logoutHandler} style={{margin:20,width:200}}>Logout</a>
+        <NavLink className='btn btn-secondary ms-1' to='/MyOrders' style={{margin:20,width:200}}>My Orders</NavLink>
       </div>
       </div>
     </Fragment>

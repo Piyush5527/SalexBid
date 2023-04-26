@@ -4,7 +4,7 @@ import NavbarBoots from '../Navbar/Navbar';
 import axios from 'axios';
 import styles from '../css/viewsingleproduct.module.css';
 import { HiOutlineShoppingCart } from 'react-icons/hi';
-
+import styles1 from '../css/shared.module.css';
 const ViewSingleProduct = () => {
 
   const [list, setList] = useState("")
@@ -128,67 +128,79 @@ const ViewSingleProduct = () => {
   return (
     <Fragment>
       <NavbarBoots></NavbarBoots>
-      <div className='main_container'>
+      <div className={styles.main_container}>
         <h3 className={styles.header} style={{textAlign:'center'}}>Product Details</h3>
-        <div className={`${styles.main_container} ${styles.right}`}>
+          <div className={styles.product_container}>
+        <div className={`${styles.product_container} ${styles.left}`}>
           {/* style={{ width: "500px", textAlign: "center", margin: "auto", height: "500px" }} */}
-          <img className={styles.productImage} height={350} width={350} variant="top" src={`http://localhost:1337/idProof/${list.prod_image}`} />
+          <img className={styles.productImage} height={450} variant="top" src={`http://localhost:1337/idProof/${list.prod_image}`} />
           {/* <br></br> */}
         </div>
-        <div className={`${styles.main_container} ${styles.right}`}>
+        <div className={styles.product_container+" "+styles.right}>
           <table className="table table-bordered">
             <tr>
-              <th colSpan={2} style={{textAlign:'center'}}>Basic Details</th>
+              <th colSpan={2} style={{textAlign:'left'}}><h5>Basic Details</h5></th>
             </tr>
             <tr>
-              <td>Product Name</td>
-              <td>{list.product_name}</td>
+              <td className={styles.left_align}>Product Name</td>
+              <td className={styles.left_align}>{list.product_name}</td>
             </tr>
             <tr>
-              <td>Price</td>
-              <td>{list.product_price} /-</td>
+              <td className={styles.left_align}>Price</td>
+              <td className={styles.left_align}>{list.product_price} /-</td>
             </tr>
             <tr>
-              <td>Size</td>
-              <td>{list.prod_size}</td>
+              <td className={styles.left_align}>Size</td>
+              <td className={styles.left_align}>{list.prod_size}</td>
             </tr>
             <tr>
-              <td>Short Description</td>
-              <td>{list.short_desc}</td>
+              <td className={styles.left_align}>Short Description</td>
+              <td className={styles.left_align}>{list.short_desc}</td>
             </tr>
             <tr>
-              <td>More Details</td>
-              <td>{list.long_desc}</td>
+              <td className={styles.left_align}>More Details</td>
+              <td className={styles.left_align}>{list.long_desc}</td>
             </tr>
             
           </table>
-          <a className='btn btn-warning' style={{color:'black'}} onClick={() => addProductToCart(list._id)}>Add to Cart  <HiOutlineShoppingCart/></a>
+          <button className={styles1.width_25} style={{color:'black',backgroundColor:"#ffc107",border:"none"}} onClick={() => addProductToCart(list._id)}>Add to Cart  <HiOutlineShoppingCart/></button>
+        <hr/>
+        </div>
         </div>
       </div>
-      <br></br><br></br>
-      <div  className='main_container'>
-        <h3>Feedbacks</h3><br></br><br></br>
-      {productFeedbacks.map((item)=>{
-        feedbackCnt+=1;
-        return (<>
-        <tr>
-                <td>{feedbackCnt+". "}{item.user_id?.full_name}</td>
-        </tr>
-        <tr>
-                <td>{item.feedback}</td>
-        </tr></>)
-      })}
-      </div>
-
-      <div className='main_container'>
-      <form className='login'>
+      <br/>
+      <br/>
+      <div className={styles.main_container}>
+        <h3 style={{textAlign:"center"}}>Feedbacks</h3>
+        <div className={styles.product_container}>
+          <div className={styles.product_container+" "+styles.right}>
+            <table className='table table-hover py-4' >
+            {productFeedbacks.map((item)=>{
+            feedbackCnt+=1;
+            return (
+            <tr>
+              <td>{feedbackCnt+". "}</td>
+              <td style={{textAlign:"Left"}}>{item.user_id?.full_name}</td>
+           
+              <td style={{textAlign:"Left"}}>{item.feedback}</td>
+            </tr>)
+          })}
+          </table>
+          </div>
+          <div className={styles.product_container+" "+styles.left} style={{marginLeft:100}}>
+          <form className='login'>
             <h3>Feedback</h3>
 
             <label for="username">Your Feedback</label>
             <textarea style={{width:330, height:150}}name="feedback" onChange={(e) => setFeedback(e.target.value)} value={feedback} id="feedback" />
             <button onClick={(e)=>feedbackSubmitHandler(list._id)}>Submit Feedback</button>
-        </form>    
+        </form>
+          </div>
+        </div>
+      
       </div>
+
+
     </Fragment>
   )
 }

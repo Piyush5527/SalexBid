@@ -5,6 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import Product from './Product';
 import axios from "axios"
 import styles from '../css/shop.module.css';
+import styles1 from '../css/shared.module.css'
 
 const Shop = () => {
   const [list,setList]=useState([])
@@ -72,12 +73,13 @@ const Shop = () => {
     <Fragment>
         <Navbar/>
         <form>
-          <div className="search-wrapper">
+          <div className={styles1.main_container}>
             <div className="form-group">
                 <input 
                     type="text"
                     className="form-control"
                     placeholder="Search" 
+                    style={{borderRadius:20}}
                     onChange={searchProduct}/>
             </div>
           </div>
