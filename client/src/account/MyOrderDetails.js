@@ -52,6 +52,8 @@ const MyOrderDetails = () => {
                             <th scope="col">Product</th>
                             <th scope="col">Size</th>
                             <th scope="col">Quantity</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Payment Status</th>
                             <th scope="col">Total Amount</th>
                             <th scope="col">Order Date</th>
                         </tr>
@@ -62,6 +64,8 @@ const MyOrderDetails = () => {
                             <td>{myFinalOrder.product_id?.product_name}</td>
                             <td>{myFinalOrder.product_id?.prod_size}</td>
                             <td>{myFinalOrder.quantity}</td>
+                            <td>{myOrderDetails.payment_mode==="Online"?"Prepaid":"COD"}</td>
+                            <td>{myOrderDetails.payment_status}</td>
                             <td>{"₹" + myFinalOrder.total}</td>
                             <td>{myFinalOrder.created_at}</td>
                         </tr>
