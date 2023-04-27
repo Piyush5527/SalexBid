@@ -47,7 +47,7 @@ const SelectAddress = () => {
             <NavbarBoots />
             <div className={styles.main_container_navbar}>
             <h3>Select Address</h3>
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Phone</th>
@@ -63,7 +63,7 @@ const SelectAddress = () => {
                     {address.map((item) => {
                         return (<>
 
-                            <tr onClick={() => placeOrder(item._id)}>
+                            <tr onClick={() => placeOrder(item._id)} style={{cursor:"pointer"}}>
                                 <td>{item.phone}</td>
                                 <td>{item.street}</td>
                                 <td>{item.city}</td>

@@ -57,6 +57,8 @@ const ShowOrders = () => {
                             <th scope="col">Quantity</th>
                             <th scope="col">₹</th>
                             <th scope="col">Order at</th>
+                            <th scope="col">Payment status</th>
+                            <th scope="col">Payment Mode</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -74,6 +76,8 @@ const ShowOrders = () => {
                                     <td>{item.quantity}</td>
                                     <td>{"₹" + item.total}</td>
                                     <td>{item.created_at}</td>
+                                    <td>{item.order_id.payment_status}</td>
+                                    <td>{item.order_id.payment_mode}</td>
                                     <td><NavLink to={`/AdminMyOrderDetails/${item._id}`}>See Details</NavLink></td>
 
                                 </tr>

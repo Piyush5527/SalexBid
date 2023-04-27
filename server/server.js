@@ -20,7 +20,7 @@ const Feedback = require("./models/feedback.model")
 const transactionDB=require("./models/transactions.model");
 const HistoryDB =require("./models/bid_history.model");
 const BidWinnerDB= require("./models/bid_winners_details.model")
-const RefundDB=require("./models/refund.model")
+// const RefundDB=require("./models/refund.model")
 
 
 const {spawn}=require('child_process');
@@ -1360,7 +1360,7 @@ app.post('/api/paymentverificationforbids',async(req,res)=>{
 app.get('/api/getcurrentbiddings/:id',async(req,res)=>{
     const{id}=req.params;
     console.log("From Current Biddings",id)
-    const result=await bidJoinedDB.find({product_id:id}).populate("user_id")
+    const result=await bidJoinedDB.find({product_id:id}).sort({amount:-1}).populate("user_id")
     // console.log("Length",result.length)
     if(result.length !== undefined)
     {
@@ -1531,11 +1531,11 @@ app.post('/api/endBid/:id',async(req,res)=>{
                 //     console.log(item.user_id)
                 // })
                 console.log("line 1520",loseBidder.length)
-                loseBidder.map((item)=>{
-                    RefundDB.create({
-                        user_id:item.user_id
-                    })
-                })
+                // loseBidder.map((item)=>{
+                //     RefundDB.create({
+                //         user_id:item.user_id
+                //     })
+                // })
 
 
                 console.log("Ended Bid Successfully")
