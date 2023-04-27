@@ -815,7 +815,20 @@ app.patch("/api/updatecategory/:id", async (req, res) => {
         res.status(422).json(error)
     }
 })
-
+app.get('/api/getsearchproduct/:key',async(req,res)=>{
+    try {
+        let result = await Product.find({
+            "$or" : [
+                {product_name:{$regex:req.params.key}},
+                {short_desc:{$regex:req.params.key}},
+                {long_desc:{$regex:req.params.key}}
+            ]
+        });
+        res.send(result)
+    } catch (error) {
+        console.log(error);
+    }
+});
 app.post("/api/addtocart/:productId", async (req, res)=>{
     try{
         const {productId} = req.params
@@ -1517,7 +1530,7 @@ app.post('/api/endBid/:id',async(req,res)=>{
                 // loseBidder.map((item)=>{
                 //     console.log(item.user_id)
                 // })
-                console.log("line 1436",loseBidder.length)
+                console.log("line 1520",loseBidder.length)
                 loseBidder.map((item)=>{
                     RefundDB.create({
                         user_id:item.user_id
@@ -1650,6 +1663,7 @@ app.post('/api/finalpaymentverification',async(req,res)=>{
 
 app.get('/api/gettransaction/:id',async(req,res)=>{
     try{
+        // console.log("gdhsjshdhfsdjdsjhfdkvhf")
         const {id}=req.params;
         const token=req.headers.authorization;
         const verifyToken=jwt.verify(token,Skey)
@@ -1661,7 +1675,9 @@ app.get('/api/gettransaction/:id',async(req,res)=>{
             console.log("length : ",transData)
             if(transData)
             {
+                console.log("data found",transData.length , typeof(transData))
                 res.status(200).json(transData)
+
             }
             else
             {
@@ -1671,6 +1687,29 @@ app.get('/api/gettransaction/:id',async(req,res)=>{
     }
     catch(err)
     {
+        console.log("error")
+        res.status(422).json(err)
+    }
+})
+app.get('/api/gethistorybid/:id',async(req,res)=>{
+    try{
+        const {id}=req.params;
+        const bidData=await BidWinnerDB.findOne({_id:id})
+        console.log("1685 ",bidData._id)
+        if(bidData)
+        {
+            console.log("data found",bidData._id)
+            res.status(200).json(bidData)
+        }
+        else
+        {
+            console.log("In get Histroy Bid :: cant found data")
+            res.status(422).json("cant found")
+        }
+    }
+    catch(err)
+    {
+        console.log("error",err)
         res.status(422).json(err)
     }
 })
