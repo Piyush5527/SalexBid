@@ -1714,7 +1714,7 @@ app.get('/api/gethistorybid/:id',async(req,res)=>{
     }
 })
 
-// const ls=spawn('python',['scripts/dobChecker.py','idProof/itachimangekyou.png'])
+// const ls=spawn('python',['scripts/test.py','idProof/itachimangekyou.png'])
 // ls.stdout.on('data',(data)=>{
 //     console.log(`stdoutput ${data}`);
 //     // if(data==30)

@@ -1,15 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { NavLink,useNavigate } from 'react-router-dom';
-// import "../css/open-iconic-bootstrap.min.css";
-// import "../css/animate.css";
-// import "../css/owl.carousel.min.css";
-// import "../css/owl.theme.default.min.css";
-// import "../css/magnific-popup.css";
-// import "../css/aos.css";
 import "../css/ionicons.min.css";
-// import "../css/bootstrap-datepicker.css";
-// import "../css/jquery.timepicker.css";
-// import "../css/flaticon.css";
 import "../css/icomoon.css";
 import "../css/style.css";
 
@@ -90,7 +81,7 @@ const Navbar = () => {
 			isUserLoggedIn &&
 			<div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href='/Home'  class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a onClick={()=>navigate("/Home")}  class="nav-link">Home</a></li>
 	          <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">

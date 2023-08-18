@@ -45,8 +45,8 @@ const MyTransactions = () => {
                             <th scope="col">Transactions ID</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Reason</th>
-                            <th scope="col">Refund Available</th>
-                            <th scope="col">Refund Done</th>
+                            {/* <th scope="col">Refund Available</th> */}
+                            {/* <th scope="col">Refund Done</th> */}
                             <th scope="col">Payment Date</th>
                         </tr>
                     </thead>
@@ -57,8 +57,8 @@ const MyTransactions = () => {
                                     <td>{item.t_id}</td>
                                     <td>{"₹" + item.amount}</td>
                                     <td>{item.reason}</td>
-                                    <td>{String(item.refund_available)}</td>
-                                    <td>{String(item.refund_done)}</td>
+                                    {/* <td>{String(item.refund_available)}</td> */}
+                                    {/* <td>{String(item.refund_done)}</td> */}
                                     <td>{item.created_at}</td>
                                 </tr>
                             </>)
