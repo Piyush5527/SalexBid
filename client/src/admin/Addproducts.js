@@ -116,7 +116,7 @@ const Addproducts = () => {
                 }
             </select>
             <label for="size">Size<span style={{color:'red'}}>*</span></label>
-            <input type="text" name="size" placeholder="xl" onChange={(e)=>setProdSize(e.target.value)} value={prodSize}/>
+            <input type="text" name="size" placeholder="Enter Size as per your Product" onChange={(e)=>setProdSize(e.target.value)} value={prodSize}/>
             <label for="stock">Stock<span style={{color:'red'}}>*</span></label>
             <input type="number" name="stock" placeholder="eg 50" onChange={(e)=>setProdStock(e.target.value)} value={prodStock}/>
             <label for="image">Image<span style={{color:'red'}}>*</span></label>

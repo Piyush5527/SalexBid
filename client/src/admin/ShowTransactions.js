@@ -55,8 +55,6 @@ const ShowTransactions = () => {
                             <th scope="col">Customer Name</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Reason</th>
-                            <th scope="col">Refund Available</th>
-                            <th scope="col">Refund Done</th>
                             <th scope="col">Payment Date</th>
                         </tr>
                     </thead>
@@ -68,8 +66,6 @@ const ShowTransactions = () => {
                                     <td>{item.user_id?.full_name}</td>
                                     <td>{"₹" + item.amount}</td>
                                     <td>{item.reason}</td>
-                                    <td>{String(item.refund_available)}</td>
-                                    <td>{String(item.refund_done)}</td>
                                     <td>{item.created_at}</td>
                                 </tr>
                             </>)

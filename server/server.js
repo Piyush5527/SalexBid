@@ -240,6 +240,36 @@ app.get("/api/getallmyorders", async (req, res) => {
     }
 });
 
+app.get("/api/getallrefunds", async (req, res) => {
+    try {
+    
+        const myOrders = await RefundDB.find().populate('user_id')
+
+        res.status(200).json(myOrders);
+    } catch (err) {
+        console.log(err)
+        res.status(401).json(err)
+    }
+});
+
+app.get("/api/refundstatuschange/:id", async (req, res) => {
+    try {
+        const {id} = req.params
+
+
+        
+        const updateRefund = await RefundDB.findByIdAndUpdate(id, {refund_status:true}, {
+            new: true
+        });
+        console.log(updateRefund);
+        console.log(updateRefund);
+        res.status(200).json({Refund : "Refund Updated"});
+    } catch (err) {
+        console.log(err)
+        res.status(401).json(err)
+    }
+});
+
 app.get("/api/getmyorderid/:id", async (req, res) => {
     try {
         const {id} = req.params
@@ -1127,7 +1157,7 @@ app.get("/api/getAddressCnt",async (req, res) => {
         
         const rootUser = await User.findOne({_id:verifytoken._id})
 
-        const getAddressesData= await addressdb.find({user_id:rootUser._id});
+        const getAddressesData= await Address.find({user_id:rootUser._id});
 
         console.log(getAddressesData.length);
 
@@ -1591,6 +1621,21 @@ app.get('/api/getWonBiddings',async(req,res)=>{
         res.status(422).json(err)
     }
 })
+
+app.get('/api/getsearchproduct/:key',async(req,res)=>{
+    try {
+        let result = await Product.find({
+            "$or" : [
+                {product_name:{$regex:req.params.key}},
+                {short_desc:{$regex:req.params.key}},
+                {long_desc:{$regex:req.params.key}}
+            ]
+        });
+        res.send(result)
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 
 

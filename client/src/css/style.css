@@ -240,6 +240,7 @@ input[type="month"] {
   -webkit-appearance: listbox; }
 
 textarea {
+  width: 100%;
   overflow: auto;
   resize: vertical; }
 
