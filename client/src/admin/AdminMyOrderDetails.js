@@ -64,6 +64,8 @@ const AdminMyOrderDetails = () => {
                             <th scope="col">Size</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total Amount</th>
+                            <th scope="col">Payment Status</th>
+                            <th scope="col">Payment Mode</th>
                             <th scope="col">Order Date</th>
                         </tr>
                     </thead>
@@ -74,6 +76,8 @@ const AdminMyOrderDetails = () => {
                             <td>{myFinalOrder.product_id?.prod_size}</td>
                             <td>{myFinalOrder.quantity}</td>
                             <td>{"₹" + myFinalOrder.total}</td>
+                            <td>{myOrderDetails.payment_status}</td>
+                            <td>{myOrderDetails.payment_mode}</td>
                             <td>{myFinalOrder.created_at}</td>
                         </tr>
                     </tbody>

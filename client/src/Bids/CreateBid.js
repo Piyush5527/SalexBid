@@ -58,6 +58,13 @@ const CreateBid = () => {
         }
       }
     }
+    const disablePastDate = () => {
+      const today = new Date();
+      const dd = String(today.getDate() ).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      const yyyy = today.getFullYear();
+      return yyyy + "-" + mm + "-" + dd;
+  };
     // console.log("valid name",prodNameValid)
   return (
     <Fragment >
@@ -88,7 +95,7 @@ const CreateBid = () => {
             <label for="longDesc">Long Description</label>
             <input type="text" onChange={(e)=>{setLongDesc(e.target.value)}} value={longDesc} placeholder='' required/>
             <label for="start date ">Select Start Date</label>
-            <input type="date" onChange={(e)=>{setSrtDate(e.target.value)}} value={srtDate} placeholder='' required/>
+            <input type="date" onChange={(e)=>{setSrtDate(e.target.value)}} value={srtDate} placeholder='' min={disablePastDate()} required/>
             <label for="File">Image of Product</label>
             <input type="file"  onChange={(e) => setProductImage(e.target.files[0])}></input>
             <button onClick={bidDataHandler}>Submit</button>

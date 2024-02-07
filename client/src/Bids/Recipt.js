@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import '../css/payment/recipt.module.css'
+import React, { Fragment, useEffect, useState } from 'react'
+import styles from '../css/shared.module.css'
 import Navbar from '../Navbar/Navbar'
 import { useParams } from 'react-router-dom'
+import {MDBCard,MDBCardBody,MDBCol,MDBContainer,MDBRow,MDBTypography,} from 'mdb-react-ui-kit';
 const Recipt = () => {
     const [transactionDetail,setTransactionDetail]=useState('')
+    const [bidData,setBidData]=useState('')
     const {id}=useParams("")
     const getRecipt=async()=>{
         const token=localStorage.getItem('usersdatatoken')
@@ -15,91 +17,87 @@ const Recipt = () => {
             }
         })
         const result=await data.json();
-        if(data.status !== 200 && !result)
+        if(data.status === 422 && !result)
         {
             // console.log(result.status)
             console.log("Error in fetching transaction details")
         }
         else
         {
-            console.log(result)
+            // console.log(result)
             setTransactionDetail(result)
+            // console.log(transactionDetail.length)
+        }
+    }
+    
+    const getBidData=async()=>{
+        console.log(transactionDetail.product_id)
+        const data = await fetch(`http://localhost:1337/api/gethistorybid/${transactionDetail.product_id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const result=await data.json()
+        console.log(result)
+        if(data.status===422 || !result)
+        {
+            console.log("error in fetching data")
+        }
+        else
+        {
+            setBidData(result)
         }
     }
     useEffect(()=>{
         getRecipt()
     },[])
+    useEffect(()=>{
+        getBidData();
+    },[transactionDetail])
   return (
-    <div>
+    <Fragment>
         <Navbar/>
-        <div class="container">
-        <div class="brand-section">
-            <div class="row">
-                <div class="col-6">
-                    <h2 class="text-black">SalexBid</h2>
-                </div>
-                <div class="col-6">
-                    <div class="company-details">
+        {transactionDetail._id !== undefined ? 
 
-                        <p class="text-black">Email: salexbid@mgmt.com</p>
-                        <p class="text-black">+91 8899665544</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="body-section">
-            <div class="row">
-                <div class="col-6">
-                    <h4 class="heading">Invoice Id: {transactionDetail.t_id}</h4>
-                    <p class="sub-heading">Order Date: {transactionDetail.created_at.slice(0,10)+" "+transactionDetail.created_at.slice(12,20)} </p> 
-                    <p class="sub-heading">Email Address: {transactionDetail.user_id.email}</p>
-                </div>
-                <div class="col-6">
-                    <p class="sub-heading">Full Name: {transactionDetail.user_id.full_name} </p>
-                    <p class="sub-heading">Address:  {transactionDetail.user_id.address}</p>
-                    <p class="sub-heading">Phone Number: {transactionDetail.user_id.phone}</p>
-                   
-                </div>
-            </div>
-        </div>
-
-        <div class="body-section">
-            <h3 class="heading">Ordered Items</h3>
-            <br></br>
-            <table class="table-bordered">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th class="w-20">Price</th>
-                        <th class="w-20">Quantity</th>
-                        <th class="w-20">Grandtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{transactionDetail.product_id.product_name}</td>
-                        <td>{transactionDetail.product_id.amount}</td>
-                        <td>1</td>
-                        <td>{transactionDetail.product_id.amount}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" class="text-right">Grand Total</td>
-                        <td>@ViewBag.Amount</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br></br>
-            <h3 class="heading">Payment Status: Paid</h3>
-            <h3 class="heading">Payment Mode: Online</h3>
-        </div>
-
-
-    </div>
-    <center>
-        <button onclick="document.execCommand('Print')" class="btn btn-outline-secondary">Save Invoice</button>
-    </center>
-    </div>
+            <MDBContainer className='py-5'>
+                <MDBCard>
+                    <MDBCardBody>
+                        <MDBContainer>
+                            <h3 style={{textAlign:"center"}}>SaleXBid</h3>
+                            <h6>Transaction ID: {transactionDetail._id}</h6>
+                            <h6>User Name : {transactionDetail.user_id.full_name}</h6>
+                            <h6>User Name : {transactionDetail.created_at.slice(0,10)+" "+transactionDetail.created_at.slice(11,19)}</h6>
+                            {/* <MDBRow> */}
+                                <h5 className='text-muted mt-1' style={{textAlign:"center",textDecoration:"underline"}}>Invoice</h5>
+                            {/* </MDBRow> */}
+                            <MDBRow>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr>
+                                    <td>{bidData.product_name}</td>
+                                    <td>{1}</td>
+                                    <td>{transactionDetail.amount}</td>
+                                </tr>
+                                <tr>
+                                    <td>GrandTotal</td>
+                                    <td></td>
+                                    <td>{transactionDetail.amount}</td>
+                                </tr>
+                            </table>
+                            <button className={styles.width_25} style={{padding:0}} onClick={(e)=>{window.print()}}>Print</button>
+                            </MDBRow>
+                        </MDBContainer>
+                    </MDBCardBody>
+                </MDBCard>
+            </MDBContainer>
+        : ""}
+    </Fragment>
+    
   )
 }
 

@@ -10,6 +10,7 @@ import '../css/flaticon.css';
 import "../css/icomoon.css";
 import "../css/ionicons.min.css";
 import Footer from './Footer';
+import styles1 from '../css/shared.module.css';
 const Homepage = () => {
   return (
     <Fragment>
@@ -28,14 +29,14 @@ const Homepage = () => {
 							
 							<h1>Catch Your Own <br/><span className={styles.image_title}>Stylish &amp; Look</span></h1>
 							<br/>
-							<p><a href='#' class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
+							<p><button href='#' class="btn btn-primary px-5 py-3 mt-3" style={{width:200}}>Discover Now</button></p>
 						</div>
 						<div className={styles.carousel_item+" "+styles.right}><img className="img" src= {'assets/images/bg_1.jpg'} alt="background1"/></div>
 						</div>  
 					<div className={styles.carousel_item}>
 						<div className={styles.carousel_item+" "+styles.left}>
 							<h1>A Thouroughly <span  className={styles.image_title}>Modern</span> Woman</h1>
-							<p><a href="#" class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
+							<p><button href="#" class="btn btn-primary px-5 py-3 mt-3" style={{width:200}}>Discover Now</button></p>
 						</div>
 						<div className={styles.carousel_item+" "+styles.right}><img className="img" src= {'assets/images/bg_2.jpg'} alt="background2"/></div>
 					</div>  

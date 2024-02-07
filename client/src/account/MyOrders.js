@@ -48,6 +48,7 @@ const MyOrders = () => {
                             <th scope="col">Quantity</th>
                             <th scope="col">₹</th>
                             <th scope="col">Order at</th>
+                            <th scope="col">Payment Status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@ const MyOrders = () => {
                                     <td>{item.quantity}</td>
                                     <td>{"₹" + item.total}</td>
                                     <td>{item.created_at}</td>
+                                    <td>{item.order_id.payment_status}</td>
                                     <td><NavLink to={`/MyOrderDetails/${item._id}`}>See Details</NavLink></td>
 
                                 </tr>
